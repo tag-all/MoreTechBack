@@ -11,9 +11,15 @@ import ru.tagallteam.hackstarter.errors.model.ApplicationError;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Обработка ошибок приложения.
+ *
+ * @author Iurii Babalin.
+ */
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
     /**
      * Обработка исключения {@link NoHandlerFoundException}.
      *
@@ -27,6 +33,5 @@ public class GlobalExceptionHandler {
         response.setStatus(ErrorDescriptor.NOT_FOUND.getStatus().value());
         return ErrorDescriptor.NOT_FOUND.applicationError();
     }
-
 
 }
