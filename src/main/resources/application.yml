@@ -1,2 +1,13 @@
 server:
   port: 10080
+
+out-system:
+  systems:
+    -
+      name: "CoinDesk"
+      systemLink: "https://api.coindesk.com/v1/"
+      systemKey: ""
+      bearer: false
+    - name: "Nationalize"
+      systemLink: "https://api.nationalize.io/"
+      bearer: false

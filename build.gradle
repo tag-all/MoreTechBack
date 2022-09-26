@@ -19,7 +19,8 @@ dependencies {
     implementation("org.springframework:spring-core")
     implementation("org.springframework:spring-web")
 
-    implementation("org.projectlombok:lombok")
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
