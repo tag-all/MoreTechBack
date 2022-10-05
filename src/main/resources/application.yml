@@ -27,3 +27,14 @@ jwt:
   jwt-secret: "1#42?!@3321"
   time-of-action-auth-token: 1
   time-of-action-access-token: 24
+
+out-system:
+  systems:
+    -
+      name: "CoinDesk"
+      systemLink: "https://api.coindesk.com/v1/"
+      systemKey: ""
+      bearer: false
+    - name: "Nationalize"
+      systemLink: "https://api.nationalize.io/"
+      bearer: false
