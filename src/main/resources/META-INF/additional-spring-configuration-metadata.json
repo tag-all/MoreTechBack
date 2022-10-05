@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "jwt.jwt-secret",
+      "type": "java.lang.String",
+      "description": "Description for jwt.jwt-secret."
+    },
+    {
+      "name": "jwt.time-of-action-auth-token",
+      "type": "java.lang.Long",
+      "description": "Description for jwt.time-of-action-auth-token."
+    },
+    {
+      "name": "jwt.time-of-action-access-token",
+      "type": "java.lang.Long",
+      "description": "Description for jwt.time-of-action-access-token."
+    }
+  ]
+}

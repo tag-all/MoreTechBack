@@ -1,2 +1,29 @@
+spring:
+  application:
+    name: Hack
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 2rnKmkJG
+  jpa:
+    database: POSTGRESQL
+  flyway:
+    locations: classpath:db/migration
+  sql:
+    init:
+      platform: postgres
+
 server:
-  port: 10080
+  port: 10880
+  shutdown: graceful
+  servlet:
+    context-path: /api/v1
+
+jwt:
+  jwt-secret: "1#42?!@3321"
+  time-of-action-auth-token: 1
+  time-of-action-access-token: 24

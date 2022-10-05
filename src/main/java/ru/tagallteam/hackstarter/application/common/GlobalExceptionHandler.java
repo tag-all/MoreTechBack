@@ -1,15 +1,19 @@
 package ru.tagallteam.hackstarter.application.common;
 
+import javax.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
+import ru.tagallteam.hackstarter.errors.exception.ApplicationException;
 import ru.tagallteam.hackstarter.errors.model.ApplicationError;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Обработка ошибок приложения.
@@ -18,20 +22,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 @ControllerAdvice
-public class GlobalExceptionHandler {
+@RequiredArgsConstructor
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
-     * Обработка исключения {@link NoHandlerFoundException}.
+     * Обработка исключения {@link ApplicationException}.
      *
      * @param ex исключение.
      * @return ошибка приложения.
      */
     @ResponseBody
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public ApplicationError handleError404(NoHandlerFoundException ex, HttpServletResponse response,
-                                           HttpServletRequest request) {
-        response.setStatus(ErrorDescriptor.NOT_FOUND.getStatus().value());
-        return ErrorDescriptor.NOT_FOUND.applicationError();
+    @ExceptionHandler(ApplicationException.class)
+    public ApplicationError applicationException(ApplicationException ex, HttpServletResponse response) {
+        response.setStatus(ex.getError().getStatus().value());
+        return ex.getError();
     }
-
 }

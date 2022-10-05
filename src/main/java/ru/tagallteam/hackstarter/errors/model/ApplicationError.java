@@ -1,11 +1,9 @@
 package ru.tagallteam.hackstarter.errors.model;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.context.annotation.ApplicationScope;
-
-import java.time.LocalDateTime;
 
 /**
  * Ошибка приложения.
@@ -43,7 +41,7 @@ public class ApplicationError {
      * @param status    статус ошибки.
      * @return класс ошибки.
      */
-    public ApplicationError (String error, ErrorType errorType, HttpStatus status) {
+    public ApplicationError(String error, ErrorType errorType, HttpStatus status) {
         this.error = error;
         this.errorType = errorType;
         this.status = status;
