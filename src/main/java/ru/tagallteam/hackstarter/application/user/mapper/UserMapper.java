@@ -9,7 +9,6 @@ public class UserMapper {
         UserDto userDto = new UserDto();
         userDto.setName(user.getName());
         userDto.setLastName(user.getLastName());
-        userDto.setAge(user.getAge());
         userDto.setEmail(user.getEmail());
         return userDto;
     }

@@ -53,8 +53,8 @@ create table file
 (
     id          uuid      not null
         constraint pk_file primary key,
-    name        text      not null
-        expansion varchar (10) not null,
+    name        text      not null,
+    expansion varchar (10) not null,
     data        text      not null,
     create_date timestamp not null
 );
@@ -107,15 +107,13 @@ create sequence nft_seq;
 
 create table ntf
 (
-    id          int  not null
-        constraint pk_product primary key,
+    id          int  not null constraint pk_ntf primary key,
     creater     int references admin (id),
     owner       int references customer (id),
     file_uuid   uuid references file (id),
     certificate text not null,
-    price       int  not null,
+    price       int  not null
 );
-
 
 create sequence event_seq;
 
@@ -134,14 +132,14 @@ create sequence event_attribute_seq;
 create table event_attribute
 (
     id             int         not null
-        constraint pk_achievement_attribute primary key,
+        constraint pk_event_attribute primary key,
     event_id int references event (id),
     type           varchar(32) not null,
     value          text        not null
 );
 
-create table achievement_user
+create table event_user
 (
     user_id          int references customer (id),
-    event_id   int references event (id),
+    event_id   int references event (id)
 );
