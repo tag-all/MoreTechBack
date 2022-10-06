@@ -30,8 +30,7 @@ jwt:
 
 out-system:
   systems:
-    -
-      name: "CoinDesk"
+    - name: "CoinDesk"
       systemLink: "https://api.coindesk.com/v1/"
       systemKey: ""
       bearer: false
