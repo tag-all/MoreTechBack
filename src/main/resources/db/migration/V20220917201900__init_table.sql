@@ -1,4 +1,4 @@
-create sequence customer_seq start with 1 increment by 1;
+create sequence customer_seq;
 
 create table customer
 (
@@ -14,7 +14,18 @@ create table customer
     notification_status boolean default false not null
 );
 
-create sequence token_seq start with 1 increment by 1;
+create sequence admin_seq;
+
+create table admin
+(
+    id       int                 NOT NULL
+        CONSTRAINT pk_admin primary key,
+    name     varchar(125),
+    email    varchar(125) unique not null,
+    password text                not null
+);
+
+create sequence token_seq;
 
 create table token
 (
@@ -52,27 +63,27 @@ create sequence achievement_seq;
 
 create table achievement
 (
-    id        int not null
+    id        int         not null
         constraint pk_achievement primary key,
     file_uuid uuid references file (id),
-    name varchar (64) not null
+    name      varchar(64) not null
 );
 
 create sequence achievement_attribute_seq;
 
 create table achievement_attribute
 (
-    id        int not null
+    id             int         not null
         constraint pk_achievement_attribute primary key,
     achievement_id int references achievement (id),
-    type  varchar(32) not null,
-    value text        not null
+    type           varchar(32) not null,
+    value          text        not null
 );
 
 create table achievement_user
 (
-    user_id        int references customer (id),
-    achievement_id int references achievement (id),
+    user_id          int references customer (id),
+    achievement_id   int references achievement (id),
     achievement_date timestamp not null,
     primary key (user_id, achievement_id)
 );
@@ -82,12 +93,55 @@ create sequence product_seq;
 
 create table product
 (
-    id        int not null
+    id                 int         not null
         constraint pk_product primary key,
-    file_uuid uuid references file (id),
-    name varchar (64) not null,
-    price int not null,
-    purchased int not null  default 0,
-    number_of_products int not null default 0,
-    type varchar(64) not null
+    file_uuid          uuid references file (id),
+    name               varchar(64) not null,
+    price              int         not null,
+    purchased          int         not null default 0,
+    number_of_products int         not null default 0,
+    type               varchar(64) not null
+);
+
+create sequence nft_seq;
+
+create table ntf
+(
+    id          int  not null
+        constraint pk_product primary key,
+    creater     int references admin (id),
+    owner       int references customer (id),
+    file_uuid   uuid references file (id),
+    certificate text not null,
+    price       int  not null,
+);
+
+
+create sequence event_seq;
+
+create table event
+(
+    id        int         not null
+        constraint pk_event primary key,
+    creater int references admin (id),
+    topic varchar(64) not null,
+    time_of_event timestamp not null,
+    description text
+);
+
+create sequence event_attribute_seq;
+
+create table event_attribute
+(
+    id             int         not null
+        constraint pk_achievement_attribute primary key,
+    event_id int references event (id),
+    type           varchar(32) not null,
+    value          text        not null
+);
+
+create table achievement_user
+(
+    user_id          int references customer (id),
+    event_id   int references event (id),
 );
