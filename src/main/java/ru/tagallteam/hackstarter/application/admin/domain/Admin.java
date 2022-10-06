@@ -1,4 +1,4 @@
-package ru.tagallteam.hackstarter.application.user.domain;
+package ru.tagallteam.hackstarter.application.admin.domain;
 
 import java.util.List;
 import javax.persistence.Column;
@@ -6,29 +6,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
-import ru.tagallteam.hackstarter.application.auth.domain.Token;
+import lombok.ToString;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
 
 @Data
 @Entity
-@Table(name = "customer")
-public class User {
-
+@ToString(of = "id")
+@Table(name = "admin")
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "customer_seq")
+    @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "admin_seq")
     private Long id;
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "last_name")
-    private String lastName;
 
     @Column(name = "email")
     private String email;
@@ -36,22 +32,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "lvl")
-    private Integer lvl;
-
-    @Column(name = "xp")
-    private Integer xp;
-
-    @Column(name = "balance")
-    private Integer balance;
-
-    @Column(name = "notification_status")
-    private Boolean notificationStatus;
-
-    @OneToMany(mappedBy = "user")
-    private List<Token> token;
-
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "admin")
     private List<Event> events;
-
 }
