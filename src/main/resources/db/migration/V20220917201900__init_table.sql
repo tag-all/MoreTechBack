@@ -1,4 +1,4 @@
-create sequence customer_seq;
+create sequence customer_seq start with 1 increment by 1;
 
 create table customer
 (
@@ -14,11 +14,12 @@ create table customer
     notification_status boolean default false not null
 );
 
-create sequence token_seq;
+create sequence token_seq start with 1 increment by 1;
 
 create table token
 (
-    id      int primary key,
+    id      int  not null
+        constraint pk_token primary key,
     user_id int references customer (id),
     token   text not null
 );

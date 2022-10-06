@@ -10,14 +10,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
-import lombok.ToString;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
 
 @Data
 @Entity
-@ToString(of = "id")
 @Table(name = "customer")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "customer_seq")
@@ -29,16 +28,25 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "age")
-    private Long age;
-
     @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy="user")
+    @Column(name = "lvl")
+    private Integer lvl;
+
+    @Column(name = "xp")
+    private Integer xp;
+
+    @Column(name = "balance")
+    private Integer balance;
+
+    @Column(name = "notification_status")
+    private Boolean notificationStatus;
+
+    @OneToMany(mappedBy = "user")
     private List<Token> token;
 
 }
