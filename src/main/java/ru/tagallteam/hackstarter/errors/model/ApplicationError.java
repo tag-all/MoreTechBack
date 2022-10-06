@@ -21,7 +21,7 @@ public class ApplicationError {
     /**
      * Сообщение об ошибке.
      */
-    private String error;
+    private String message;
 
     /**
      * Время ошибки.
@@ -36,13 +36,13 @@ public class ApplicationError {
     /**
      * Создание ошибки.
      *
-     * @param error     текст ошибки.
+     * @param message     текст ошибки.
      * @param errorType тип ошиби.
      * @param status    статус ошибки.
      * @return класс ошибки.
      */
-    public ApplicationError(String error, ErrorType errorType, HttpStatus status) {
-        this.error = error;
+    public ApplicationError(String message, ErrorType errorType, HttpStatus status) {
+        this.message = message;
         this.errorType = errorType;
         this.status = status;
         this.time = LocalDateTime.now();

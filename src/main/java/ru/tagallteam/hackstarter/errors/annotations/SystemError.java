@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
                 response = ApiResponse.class,
                 examples = @Example(value = @ExampleProperty(mediaType = "application/json",
                         value = "{\n\"errorType\": \"Тип ошибки\", \n" +
-                                "  \"error\": \"Сообщение об ошибке\", \n" +
+                                "  \"message\": \"Сообщение об ошибке\", \n" +
                                 "  \"time\": \"Время ошибки\",\n" +
                                 "  \"status\": \"Статус ошибки\"\n}")
                 )),
@@ -22,15 +22,16 @@ import java.lang.annotation.Target;
                 response = ApiResponse.class,
                 examples = @Example(value = @ExampleProperty(mediaType = "application/json",
                         value = "{\n\"errorType\": \"Тип ошибки\", \n" +
-                                "  \"error\": \"Сообщение об ошибке\", \n" +
+                                "  \"message\": \"Сообщение об ошибке\", \n" +
                                 "  \"time\": \"Время ошибки\",\n" +
                                 "  \"status\": \"Статус ошибки\"\n}")
                 )),
         @ApiResponse(code = 404, message = "Обработчик не найден",
                 response = ApiResponse.class,
                 examples = @Example(value = @ExampleProperty(mediaType = "application/json",
-                        value = "{\n\"errorType\": \"Тип ошибки\", \n" +
-                                "  \"error\": \"Сообщение об ошибке\", \n" +
+                        value = "{\n" +
+                                "  \"errorType\": \"Тип ошибки\", \n" +
+                                "  \"message\": \"Сообщение об ошибке\", \n" +
                                 "  \"time\": \"Время ошибки\",\n" +
                                 "  \"status\": \"Статус ошибки\"\n}")
                 ))
