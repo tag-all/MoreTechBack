@@ -16,7 +16,7 @@ public enum ErrorDescriptor {
             HttpStatus.BAD_REQUEST),
 
     USER_LOGOUT_LAST("Пользователь уже вышел", ErrorType.APP, HttpStatus.BAD_REQUEST),
-    USER_IS_CREATED("Пользолватель уже существует", ErrorType.APP, HttpStatus.BAD_REQUEST),
+    USER_IS_CREATED("Пользователь уже существует", ErrorType.APP, HttpStatus.BAD_REQUEST),
     USER_AUTH_PROBLEM("Логин или пароль неверный", ErrorType.APP, HttpStatus.BAD_REQUEST),
     UNAUTHORIZED_ACCESS("Неавторизованный доступ", ErrorType.APP, HttpStatus.UNAUTHORIZED),
     ACCESS_DENIED("Недостаточно прав для доступа к ресурсу", ErrorType.APP, HttpStatus.FORBIDDEN),
