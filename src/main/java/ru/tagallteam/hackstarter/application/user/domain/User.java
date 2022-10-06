@@ -1,8 +1,14 @@
 package ru.tagallteam.hackstarter.application.user.domain;
 
-import java.util.List;
+import lombok.Data;
+import ru.tagallteam.hackstarter.application.achievement.domain.AchievementUser;
+import ru.tagallteam.hackstarter.application.auth.domain.Token;
+import ru.tagallteam.hackstarter.application.event.domain.Event;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,9 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import lombok.Data;
-import ru.tagallteam.hackstarter.application.auth.domain.Token;
-import ru.tagallteam.hackstarter.application.event.domain.Event;
+import java.util.List;
+import java.util.Set;
 import ru.tagallteam.hackstarter.application.nft.domain.Nft;
 
 @Data
@@ -57,5 +62,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Nft> nfts;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    Set<AchievementUser> achievementsOfUser;
 
 }
