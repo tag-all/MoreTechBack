@@ -39,7 +39,7 @@ public class Event {
     @Column(name = "time_of_event")
     private LocalDateTime eventTime;
 
-    @Column(name = "topic")
+    @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "event")
@@ -49,7 +49,8 @@ public class Event {
     @JoinTable(
             name = "event_user",
             joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> users;
 
 }

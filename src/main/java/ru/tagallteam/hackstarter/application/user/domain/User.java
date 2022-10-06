@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
+import ru.tagallteam.hackstarter.application.nft.domain.Nft;
 
 @Data
 @Entity
@@ -53,5 +54,8 @@ public class User {
 
     @ManyToMany(mappedBy = "users")
     private List<Event> events;
+
+    @OneToMany(mappedBy = "user")
+    private List<Nft> nfts;
 
 }

@@ -51,22 +51,22 @@ create sequence file_seq;
 
 create table file
 (
-    id          uuid      not null
+    id          int         not null
         constraint pk_file primary key,
-    name        text      not null,
-    expansion varchar (10) not null,
-    data        text      not null,
-    create_date timestamp not null
+    name        text        not null,
+    expansion   varchar(10) not null,
+    data        text        not null,
+    create_date timestamp   not null
 );
 
 create sequence achievement_seq;
 
 create table achievement
 (
-    id        int         not null
+    id      int         not null
         constraint pk_achievement primary key,
-    file_uuid uuid references file (id),
-    name      varchar(64) not null
+    file_id int references file (id),
+    name    varchar(64) not null
 );
 
 create sequence achievement_attribute_seq;
@@ -95,7 +95,7 @@ create table product
 (
     id                 int         not null
         constraint pk_product primary key,
-    file_uuid          uuid references file (id),
+    file_id            int references file (id),
     name               varchar(64) not null,
     price              int         not null,
     purchased          int         not null default 0,
@@ -105,12 +105,13 @@ create table product
 
 create sequence nft_seq;
 
-create table ntf
+create table nft
 (
-    id          int  not null constraint pk_ntf primary key,
+    id          int  not null
+        constraint pk_nft primary key,
     creater     int references admin (id),
     owner       int references customer (id),
-    file_uuid   uuid references file (id),
+    file_id     int references file (id),
     certificate text not null,
     price       int  not null
 );
@@ -119,27 +120,28 @@ create sequence event_seq;
 
 create table event
 (
-    id        int         not null
+    id            int         not null
         constraint pk_event primary key,
-    creater int references admin (id),
-    topic varchar(64) not null,
-    time_of_event timestamp not null,
-    description text
+    creater       int references admin (id),
+    topic         varchar(64) not null,
+    time_of_event timestamp   not null,
+    description   text
 );
 
 create sequence event_attribute_seq;
 
 create table event_attribute
 (
-    id             int         not null
+    id       int         not null
         constraint pk_event_attribute primary key,
     event_id int references event (id),
-    type           varchar(32) not null,
-    value          text        not null
+    type     varchar(32) not null,
+    value    text        not null
 );
 
 create table event_user
 (
-    user_id          int references customer (id),
-    event_id   int references event (id)
+    user_id  int references customer (id),
+    event_id int references event (id),
+    unique (user_id, event_id)
 );
