@@ -22,8 +22,8 @@ public enum ErrorDescriptor {
     USER_AUTH_PROBLEM("Логин или пароль неверный", ErrorType.APP, HttpStatus.BAD_REQUEST),
     UNAUTHORIZED_ACCESS("Неавторизованный доступ", ErrorType.APP, HttpStatus.UNAUTHORIZED),
     ACCESS_DENIED("Недостаточно прав для доступа к ресурсу", ErrorType.APP, HttpStatus.FORBIDDEN),
-    NOT_FOUND("Запрошенный ресурс (интерфейс) не существует", ErrorType.APP, HttpStatus.NOT_FOUND);
-
+    NOT_FOUND("Запрошенный ресурс (интерфейс) не существует", ErrorType.APP, HttpStatus.NOT_FOUND),
+    OUT_SYSTEM_ERROR_IN_URL("Ошибка во время обработки URL внешнего сервиса", ErrorType.OUT_SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
 
@@ -35,7 +35,7 @@ public enum ErrorDescriptor {
         throw ApplicationException.of(applicationError());
     }
 
-    public ApplicationException applicationException(){
+    public ApplicationException applicationException() {
         return ApplicationException.of(applicationError());
     }
 
