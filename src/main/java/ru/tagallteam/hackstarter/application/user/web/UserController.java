@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tagallteam.hackstarter.application.common.Endpoints;
-import ru.tagallteam.hackstarter.application.user.model.UserDto;
+import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
 import ru.tagallteam.hackstarter.application.user.service.UserService;
 import ru.tagallteam.hackstarter.errors.annotations.SystemError;
 
@@ -21,7 +21,7 @@ public class UserController {
             notes = "Получение профиля авторизованного пользователя")
     @SystemError
     @GetMapping(Endpoints.UserService.PROFILE)
-    public UserDto getUserProfile(){
+    public ProfileDto getUserProfile(){
         return userService.getUserProfile();
     }
 

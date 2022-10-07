@@ -9,7 +9,7 @@ import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.mapper.UserMapper;
-import ru.tagallteam.hackstarter.application.user.model.UserDto;
+import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
 import ru.tagallteam.hackstarter.application.user.service.UserService;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
 
@@ -26,11 +26,11 @@ public class UserServiceImpl implements UserService {
     private final AchievementMapper achievementMapper;
 
     @Override
-    public UserDto getUserProfile() {
-        UserDto userDto = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.getUserByEmail(userDto.getEmail())
+    public ProfileDto getUserProfile() {
+        ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.getUserByEmail(profileDto.getEmail())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::throwApplication);
-        UserDto result = userMapper.convertToUserDto(user);
+        ProfileDto result = userMapper.convertToUserDto(user);
         result.setAchievements(user.getAchievements().stream()
                 .map((item) -> {
                     AchievementDto achievementDto = achievementMapper.convertToAchievementDto(item.getAchievement());

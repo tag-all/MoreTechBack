@@ -6,7 +6,7 @@ import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
 import java.util.List;
 
 @Data
-public class UserDto {
+public class ProfileDto {
     private String name;
     private String lastName;
     private Long age;

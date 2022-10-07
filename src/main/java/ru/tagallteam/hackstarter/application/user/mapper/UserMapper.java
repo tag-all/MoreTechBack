@@ -2,16 +2,16 @@ package ru.tagallteam.hackstarter.application.user.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.tagallteam.hackstarter.application.user.domain.User;
-import ru.tagallteam.hackstarter.application.user.model.UserDto;
+import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
 
 @Component
 public class UserMapper {
 
-    public UserDto convertToUserDto(User user){
-        UserDto userDto = new UserDto();
-        userDto.setName(user.getName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        return userDto;
+    public ProfileDto convertToUserDto(User user){
+        ProfileDto profileDto = new ProfileDto();
+        profileDto.setName(user.getName());
+        profileDto.setLastName(user.getLastName());
+        profileDto.setEmail(user.getEmail());
+        return profileDto;
     }
 }

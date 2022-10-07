@@ -1,7 +1,7 @@
 package ru.tagallteam.hackstarter.application.user.service;
 
-import ru.tagallteam.hackstarter.application.user.model.UserDto;
+import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
 
 public interface UserService {
-    UserDto getUserProfile();
+    ProfileDto getUserProfile();
 }

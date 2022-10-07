@@ -11,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.tagallteam.hackstarter.application.user.model.UserDto;
+import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
 import ru.tagallteam.hackstarter.utils.JwtUtils;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -28,10 +28,10 @@ public class JwtFilter extends OncePerRequestFilter {
             throws IOException, ServletException {
         String token = getTokenFromRequest(request);
         if (token != null && jwtUtils.validateToken(token)) {
-            UserDto user = new UserDto();
-            user.setEmail(jwtUtils.getWordForToken(token));
+            ProfileDto profileDto = new ProfileDto();
+            profileDto.setEmail(jwtUtils.getWordForToken(token));
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(user, null, null);
+                    new UsernamePasswordAuthenticationToken(profileDto, null, null);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
