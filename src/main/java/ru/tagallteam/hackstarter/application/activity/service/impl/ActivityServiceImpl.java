@@ -27,7 +27,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<ActivityDto> getActivitiesByUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(ErrorDescriptor.USER_NOT_FOUND::throwApplication);
+        User user = userRepository.findById(userId).orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
         return activityRepository.findActivitiesByUser(user)
                 .stream()
                 .map(mapper::convertToActivityDto)

@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     public ProfileDto getUserProfile() {
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getUserByEmail(profileDto.getEmail())
-                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::throwApplication);
+                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
         ProfileDto profile = userMapper.convertToUserDto(user);
         profile.setAchievements(user.getAchievements().stream()
                 .map((item) -> {

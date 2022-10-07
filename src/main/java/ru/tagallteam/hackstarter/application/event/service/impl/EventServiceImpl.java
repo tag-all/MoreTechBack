@@ -42,7 +42,7 @@ public class EventServiceImpl implements EventService {
         Event newEvent = eventMapper.convertToEvent(event);
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getUserByEmail(profileDto.getEmail())
-                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::throwApplication);
+                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
         newEvent.setCreater(user);
         newEvent.setReviewerStatus(false);
         eventRepository.save(newEvent);

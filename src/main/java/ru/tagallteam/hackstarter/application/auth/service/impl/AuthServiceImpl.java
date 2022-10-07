@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     public TokenDto authorization(AuthDto authDto) {
         ErrorDescriptor.USER_AUTH_PROBLEM.throwIsFalse(userRepository.existsByEmail(authDto.getLogin()));
         User user = userRepository.getUserByEmail(authDto.getLogin())
-                .orElseThrow(ErrorDescriptor.USER_AUTH_PROBLEM::throwApplication);
+                .orElseThrow(ErrorDescriptor.USER_AUTH_PROBLEM::applicationException);
         ErrorDescriptor.USER_AUTH_PROBLEM.throwIsFalse(passwordEncoder.matches(authDto.getPassword(),
                 user.getPassword()));
         Token token = new Token();
@@ -74,14 +74,14 @@ public class AuthServiceImpl implements AuthService {
     public void logout(String accessToken) {
         ErrorDescriptor.USER_TOKEN_ACCESS_NOT_FOUND.throwIsFalse(tokenRepository.existsByToken(accessToken));
         tokenRepository.delete(tokenRepository.getByToken(accessToken)
-                .orElseThrow(ErrorDescriptor.USER_LOGOUT_LAST::throwApplication));
+                .orElseThrow(ErrorDescriptor.USER_LOGOUT_LAST::applicationException));
     }
 
     @Override
     public TokenDto updateToken(String accessToken) {
         ErrorDescriptor.USER_TOKEN_ACCESS_NOT_FOUND.throwIsFalse(tokenRepository.existsByToken(accessToken));
         Token token = tokenRepository.getByToken(accessToken)
-                .orElseThrow(ErrorDescriptor.USER_TOKEN_ACCESS_NOT_FOUND::throwApplication);
+                .orElseThrow(ErrorDescriptor.USER_TOKEN_ACCESS_NOT_FOUND::applicationException);
         TokenDto tokenDto = new TokenDto();
         tokenDto.setAccessToken(token.getToken());
         tokenDto.setAuthToken(jwtUtils.generateToken(TokenType.AUTH, token.getUser().getEmail()));

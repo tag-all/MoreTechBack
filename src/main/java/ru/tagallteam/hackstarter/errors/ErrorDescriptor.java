@@ -29,29 +29,29 @@ public enum ErrorDescriptor {
 
     private final HttpStatus status;
 
-    public void exception() {
+    public void throwApplicationException() {
         throw ApplicationException.of(applicationError());
     }
 
-    public ApplicationException throwApplication(){
+    public ApplicationException applicationException(){
         return ApplicationException.of(applicationError());
     }
 
     public void throwIsTrue(Boolean flag) {
         if (flag) {
-            exception();
+            throwApplicationException();
         }
     }
 
     public void throwIsFalse(Boolean flag) {
         if (!flag) {
-            exception();
+            throwApplicationException();
         }
     }
 
     public void throwIsNull(Object object) {
         if (ObjectUtils.isEmpty(object)) {
-            exception();
+            throwApplicationException();
         }
     }
 
