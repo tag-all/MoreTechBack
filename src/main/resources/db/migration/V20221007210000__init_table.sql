@@ -61,12 +61,14 @@ create sequence file_seq;
 
 create table file
 (
-    id          int         not null
+    id           int         not null
         constraint pk_file primary key,
-    name        text        not null,
-    expansion   varchar(10) not null,
-    data        text        not null,
-    create_date timestamp   not null
+    uuid         varchar(36) not null,
+    name         text        not null,
+    expansion    varchar(10) not null,
+    content_type varchar(64) not null,
+    data         text        not null,
+    create_date  timestamp   not null
 );
 
 create sequence achievement_seq;

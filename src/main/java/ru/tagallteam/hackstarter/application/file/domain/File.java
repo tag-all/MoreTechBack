@@ -22,11 +22,17 @@ public class File {
     @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "file_seq")
     private Long id;
 
+    @Column(name = "uuid")
+    private String uuid;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "expansion")
     private String expansion;
+
+    @Column(name = "content_type")
+    private String contentType;
 
     @Column(name = "data")
     private String data;

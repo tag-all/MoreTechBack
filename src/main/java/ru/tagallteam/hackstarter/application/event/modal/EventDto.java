@@ -13,5 +13,5 @@ public class EventDto {
 
     private String description;
 
-    private Map<EventAttributeType, Object> attribute;
+    private Map<EventAttributeType, Object> attributes;
 }

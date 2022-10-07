@@ -12,9 +12,11 @@ import ru.tagallteam.hackstarter.errors.model.ErrorType;
 @AllArgsConstructor
 public enum ErrorDescriptor {
     USER_NOT_FOUND("Пользователь не найден", ErrorType.APP, HttpStatus.BAD_REQUEST),
+    FILE_NOT_FOUND("Файл не найден", ErrorType.APP, HttpStatus.BAD_REQUEST),
     USER_TOKEN_ACCESS_NOT_FOUND("Токен доступа с заданным идентификатором не найден", ErrorType.APP,
             HttpStatus.BAD_REQUEST),
-
+    EVENT_NOT_PUBLIC("Данное мероприятие находится на валидиции, вы не можете принять в нём участие",
+            ErrorType.APP, HttpStatus.BAD_REQUEST),
     USER_LOGOUT_LAST("Пользователь уже вышел", ErrorType.APP, HttpStatus.BAD_REQUEST),
     USER_IS_CREATED("Пользователь уже существует", ErrorType.APP, HttpStatus.BAD_REQUEST),
     USER_AUTH_PROBLEM("Логин или пароль неверный", ErrorType.APP, HttpStatus.BAD_REQUEST),

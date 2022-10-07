@@ -1,10 +1,10 @@
 package ru.tagallteam.hackstarter.application.user.model;
 
+import java.util.List;
 import lombok.Data;
 import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
 import ru.tagallteam.hackstarter.application.activity.model.ActivityDto;
-
-import java.util.List;
+import ru.tagallteam.hackstarter.application.event.modal.EventDto;
 
 @Data
 public class ProfileDto {
@@ -16,4 +16,5 @@ public class ProfileDto {
     private String email;
     private List<AchievementDto> achievements;
     private List<ActivityDto> activities;
+    private List<EventDto> events;
 }

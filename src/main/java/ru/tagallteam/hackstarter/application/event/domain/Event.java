@@ -37,7 +37,7 @@ public class Event {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventAttribute> eventAttributes;
 
     @ManyToMany

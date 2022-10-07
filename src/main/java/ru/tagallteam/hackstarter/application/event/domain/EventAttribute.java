@@ -16,7 +16,7 @@ public class EventAttribute {
     @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "event_attribute_seq")
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @Column(name = "type")

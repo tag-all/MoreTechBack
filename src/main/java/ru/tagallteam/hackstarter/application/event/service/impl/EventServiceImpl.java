@@ -1,5 +1,6 @@
 package ru.tagallteam.hackstarter.application.event.service.impl;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,5 +47,18 @@ public class EventServiceImpl implements EventService {
         newEvent.setCreater(user);
         newEvent.setReviewerStatus(false);
         eventRepository.save(newEvent);
+    }
+
+    @Override
+    public void signInForEvent(Long eventId) {
+        ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.getUserByEmail(profileDto.getEmail())
+                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
+        Event event = eventRepository.getById(eventId);
+        ErrorDescriptor.EVENT_NOT_PUBLIC.throwIsFalse(event.getReviewerStatus());
+        List<User> users = event.getUsers();
+        users.add(user);
+        event.setUsers(users);
+        eventRepository.save(event);
     }
 }

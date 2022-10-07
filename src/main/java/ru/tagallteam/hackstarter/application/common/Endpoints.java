@@ -43,10 +43,16 @@ public interface Endpoints {
 
         String EVENT_FEEDBACK = "/event";
 
+        String SIGN_UP_FOR_EVENT = "/events/{eventId}";
+
     }
 
     interface PaymentService {
         String TRANSFER = "/transfer/users/{userId}";
+    }
+
+    interface FileService {
+        String FILE = "/files/{uuid}";
     }
 
 }
