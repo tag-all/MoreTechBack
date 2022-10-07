@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import ru.tagallteam.hackstarter.application.common.CommonAttributeMapper;
+import ru.tagallteam.hackstarter.application.common.mapper.CommonAttributeMapper;
 
 @RequiredArgsConstructor
 public enum EventAttributeType {

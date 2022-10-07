@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tagallteam.hackstarter.application.common.Endpoints;
-import ru.tagallteam.hackstarter.application.common.Page;
 import ru.tagallteam.hackstarter.application.product.model.ProductDto;
-import ru.tagallteam.hackstarter.application.product.service.ProductService;
 import ru.tagallteam.hackstarter.errors.annotations.SystemError;
 
 @RestController

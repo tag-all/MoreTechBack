@@ -1,4 +1,4 @@
-package ru.tagallteam.hackstarter.application.common;
+package ru.tagallteam.hackstarter.application.common.mapper;
 
 import org.apache.commons.lang3.StringUtils;
 

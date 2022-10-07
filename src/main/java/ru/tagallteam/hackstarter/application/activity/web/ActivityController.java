@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.tagallteam.hackstarter.application.activity.model.ActivityDto;
 import ru.tagallteam.hackstarter.application.activity.service.ActivityService;
-import ru.tagallteam.hackstarter.application.common.CommonFilter;
+import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.Endpoints;
-import ru.tagallteam.hackstarter.application.common.Page;
+import ru.tagallteam.hackstarter.application.common.filter.Page;
 import ru.tagallteam.hackstarter.errors.annotations.SystemError;
 
 @Api(tags = "Работа с активностями")

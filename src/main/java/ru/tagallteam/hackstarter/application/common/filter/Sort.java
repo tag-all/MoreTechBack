@@ -1,4 +1,4 @@
-package ru.tagallteam.hackstarter.application.common;
+package ru.tagallteam.hackstarter.application.common.filter;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

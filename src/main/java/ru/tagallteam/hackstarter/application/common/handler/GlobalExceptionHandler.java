@@ -1,4 +1,4 @@
-package ru.tagallteam.hackstarter.application.common;
+package ru.tagallteam.hackstarter.application.common.handler;
 
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
