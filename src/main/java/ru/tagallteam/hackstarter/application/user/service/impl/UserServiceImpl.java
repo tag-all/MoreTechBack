@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.getUserByEmail(userDto.getEmail())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::throwApplication);
         UserDto result = userMapper.convertToUserDto(user);
-        result.setAchievements(user.getAchievementsOfUser().stream()
+        result.setAchievements(user.getAchievements().stream()
                 .map((item) -> {
                     AchievementDto achievementDto = achievementMapper.convertToAchievementDto(item.getAchievement());
                     achievementDto.setDate(item.getAchievementDate());

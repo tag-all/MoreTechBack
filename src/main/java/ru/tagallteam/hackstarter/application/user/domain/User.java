@@ -1,6 +1,7 @@
 package ru.tagallteam.hackstarter.application.user.domain;
 
 import lombok.Data;
+import ru.tagallteam.hackstarter.application.achievement.domain.Achievement;
 import ru.tagallteam.hackstarter.application.achievement.domain.AchievementUser;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
@@ -43,13 +44,13 @@ public class User {
     private String password;
 
     @Column(name = "lvl")
-    private Integer lvl;
+    private Long lvl;
 
     @Column(name = "xp")
-    private Integer xp;
+    private Long xp;
 
     @Column(name = "balance")
-    private Integer balance;
+    private Long balance;
 
     @Column(name = "notification_status")
     private Boolean notificationStatus;
@@ -63,7 +64,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Nft> nfts;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    Set<AchievementUser> achievementsOfUser;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AchievementUser> achievements;
 
 }
