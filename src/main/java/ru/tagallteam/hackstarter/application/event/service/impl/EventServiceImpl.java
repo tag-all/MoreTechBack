@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.tagallteam.hackstarter.application.common.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.Page;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
+import ru.tagallteam.hackstarter.application.event.domain.EventRepository;
 import ru.tagallteam.hackstarter.application.event.mapper.EventMapper;
 import ru.tagallteam.hackstarter.application.event.modal.EventDto;
 import ru.tagallteam.hackstarter.application.event.service.EventService;
@@ -21,6 +22,8 @@ import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
 public class EventServiceImpl implements EventService {
 
     private final EventMapper eventMapper;
+
+    private final EventRepository eventRepository;
 
     private final UserRepository userRepository;
 
@@ -42,5 +45,6 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::throwApplication);
         newEvent.setCreater(user);
         newEvent.setReviewerStatus(false);
+        eventRepository.save(newEvent);
     }
 }

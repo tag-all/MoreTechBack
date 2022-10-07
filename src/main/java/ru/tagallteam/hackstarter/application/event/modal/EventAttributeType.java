@@ -9,7 +9,7 @@ import ru.tagallteam.hackstarter.application.common.CommonAttributeMapper;
 @RequiredArgsConstructor
 public enum EventAttributeType {
 
-    REWARD_TYPE("reward_type", new CommonAttributeMapper.StringCommonAttributeMapper()  ),
+    REWARD_TYPE("reward_type", new CommonAttributeMapper.StringCommonAttributeMapper()),
     NUMBER_AWARDS("number_awards", new CommonAttributeMapper.StringCommonAttributeMapper());
 
 

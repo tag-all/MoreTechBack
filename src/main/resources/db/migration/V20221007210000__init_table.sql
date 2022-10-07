@@ -121,7 +121,7 @@ create table event
     id              int         not null
         constraint pk_event primary key,
     creater         int references customer (id),
-    reviewer        int references customer (id),
+    reviewer        int,
     reviewer_status boolean default false,
     topic           varchar(64) not null,
     time_of_event   timestamp   not null,

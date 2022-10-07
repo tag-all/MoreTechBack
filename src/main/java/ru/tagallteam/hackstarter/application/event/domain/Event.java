@@ -23,9 +23,7 @@ public class Event {
     @JoinColumn(name = "creater", nullable = false)
     private User creater;
 
-    @ManyToOne
-    @JoinColumn(name = "reviewer", nullable = false)
-    private User reviewer;
+    private Long reviewer;
 
     @Column(name = "reviewer_status")
     private Boolean reviewerStatus;

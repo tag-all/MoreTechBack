@@ -57,9 +57,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Activity> activities;
 
-    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL)
-    private List<Event> reviewerEvents;
-
     @OneToMany(mappedBy = "creater", cascade = CascadeType.ALL)
     private List<Event> createrEvents;
 
