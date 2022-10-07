@@ -33,7 +33,8 @@ public interface Endpoints {
     interface AchievementService {
         String ACHIEVEMENTS = "/achievements";
 
-        String ACHIEVEMENTS_USER = "/achievements/users/{userId}";
+        String ACHIEVEMENTS_USER_GET = "/achievements/users/get/{userId}";
+        String ACHIEVEMENTS_USER_NOT_GET = "/achievements/users/notget/{userId}";
     }
 
     interface EventService {

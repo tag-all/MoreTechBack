@@ -10,4 +10,5 @@ public interface UserService {
     ProfileDto userProfile(Long userId);
 
     Page<ProfileDto> userProfiles(CommonFilter filter);
+
 }

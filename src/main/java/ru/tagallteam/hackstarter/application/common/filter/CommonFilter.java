@@ -1,13 +1,13 @@
 package ru.tagallteam.hackstarter.application.common.filter;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
-
+@Getter
+@Setter
 public class CommonFilter extends PageableRequest {
-    @Schema(description = "Сортировка по полю")
-    private Sort sort;
 
-    @Schema(description = "Фильтры по определенному полю. Бдует браться последний фильтр для поля")
-    private List<Filter> filters;
+    //Сортировка по имени
+    private String name;
+
 }
