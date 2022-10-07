@@ -30,10 +30,6 @@ jwt:
 
 out-system:
   systems:
-    - name: "CoinDesk"
-      systemLink: "https://api.coindesk.com/v1/"
-      systemKey: ""
-      bearer: false
-    - name: "Nationalize"
-      systemLink: "https://api.nationalize.io/"
+    - name: "VTB"
+      systemLink: "https://hackathon.lsp.team/hk"
       bearer: false
