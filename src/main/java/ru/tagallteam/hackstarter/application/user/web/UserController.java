@@ -18,7 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @ApiOperation(value = "Полученеи профиля",
+    @ApiOperation(value = "Получение профиля",
             notes = "Получение профиля авторизованного пользователя")
     @SystemError
     @GetMapping(Endpoints.UserService.PROFILE)
@@ -26,7 +26,7 @@ public class UserController {
         return userService.getUserProfile();
     }
 
-    @ApiOperation(value = "Полученеи профиля другого пользователя",
+    @ApiOperation(value = "Получение профиля другого пользователя",
             notes = "Получение профиля пользователя по его id, получение пользователя происходит" +
                     "с ограниченным количеством полей")
     @SystemError
@@ -35,7 +35,7 @@ public class UserController {
         return userService.userProfile(userId);
     }
 
-    @ApiOperation(value = "Полученеи профилей пользователей",
+    @ApiOperation(value = "Получение профилей пользователей",
             notes = "Получение профилей пользователей ")
     @SystemError
     @PostMapping(Endpoints.UserService.USERS_PROFILES)

@@ -4,8 +4,13 @@ import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import ru.tagallteam.hackstarter.application.achievement.mapper.AchievementMapper;
 import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
 import ru.tagallteam.hackstarter.application.activity.mapper.ActivityMapper;
@@ -61,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ProfileDto userProfile(Long userId) {
         ErrorDescriptor.USER_NOT_FOUND.throwIsFalse(userRepository.existsById(userId));
-        User user = userRepository.getById(userId);
+        User user = userRepository.getReferenceById(userId);
         ProfileDto profile = userMapper.convertToUserDtoPublic(user);
         profile.setAchievements(user.getAchievements().stream()
                 .map((item) -> {
@@ -77,6 +82,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<ProfileDto> userProfiles(CommonFilter filter) {
-        return Page.empty();
+        if (ObjectUtils.isEmpty(filter.getName())) {
+            Pageable pageable = PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("xp").descending());
+            val profiles = userRepository.findAll(pageable)
+                    .map(userMapper::convertToUserDtoPublic);
+            return Page.of(profiles);
+        } else {
+            Pageable pageable = PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("xp").descending());
+            val profiles = userRepository.findUsersByNameContains(filter.getName(), pageable)
+                    .map(userMapper::convertToUserDtoPublic);
+            return Page.of(profiles);
+        }
     }
 }

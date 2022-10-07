@@ -14,6 +14,7 @@ create table customer
 (
     id                  int                   NOT NULL
         CONSTRAINT pk_customer primary key,
+    role                varchar(125),
     name                varchar(125),
     last_name           varchar(125),
     email               varchar(125) unique   not null,
