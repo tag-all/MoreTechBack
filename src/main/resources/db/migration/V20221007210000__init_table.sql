@@ -1,3 +1,13 @@
+create sequence lvl_seq;
+
+create table lvl
+(
+    id   int not null
+        constraint pk_lvl primary key,
+    xp   int not null,
+    name varchar(125)
+);
+
 create sequence customer_seq;
 
 create table customer
@@ -8,7 +18,7 @@ create table customer
     last_name           varchar(125),
     email               varchar(125) unique   not null,
     password            text                  not null,
-    lvl                 int     default 0     not null,
+    lvl_id              int references lvl (id),
     xp                  int     default 0     not null,
     balance             int     default 0     not null,
     notification_status boolean default false not null
@@ -65,6 +75,7 @@ create table achievement
 (
     id      int         not null
         constraint pk_achievement primary key,
+    lvl_id  int references lvl (id),
     file_id int references file (id),
     name    varchar(64) not null
 );
@@ -103,29 +114,18 @@ create table product
     type               varchar(64) not null
 );
 
-create sequence nft_seq;
-
-create table nft
-(
-    id          int  not null
-        constraint pk_nft primary key,
-    creater     int references admin (id),
-    owner       int references customer (id),
-    file_id     int references file (id),
-    certificate text not null,
-    price       int  not null
-);
-
 create sequence event_seq;
 
 create table event
 (
-    id            int         not null
+    id              int         not null
         constraint pk_event primary key,
-    creater       int references admin (id),
-    topic         varchar(64) not null,
-    time_of_event timestamp   not null,
-    description   text
+    creater         int references customer (id),
+    reviewer        int references customer (id),
+    reviewer_status boolean default false,
+    topic           varchar(64) not null,
+    time_of_event   timestamp   not null,
+    description     text
 );
 
 create sequence event_attribute_seq;

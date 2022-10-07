@@ -10,6 +10,10 @@ public interface Endpoints {
 
     interface UserService {
         String PROFILE = "/profile";
+
+        String USERS_PROFILES = "/profiles";
+
+        String USER_PROFILE = "/profiles/users/{userId}";
     }
 
     interface ProductService {
@@ -17,8 +21,32 @@ public interface Endpoints {
 
         String PRODUCT = "/products/{productId}";
 
-        String PRODUCT_SEARCH = "/products/search";
-
         String PRODUCT_BUY = "/products/{productId}/buy";
     }
+
+    interface ActivityService {
+        String ACTIVITIES = "/activities";
+
+        String USER_ACTIVITIES = "/users/{userId}/activities";
+    }
+
+    interface AchievementService {
+        String ACHIEVEMENTS = "/achievements";
+
+        String ACHIEVEMENTS_USER = "/achievements/users/{userId}";
+    }
+
+    interface EventService {
+        String EVENTS = "/events";
+
+        String EVENTS_USER = "/events/users/{userId}";
+
+        String EVENT_FEEDBACK = "/event";
+
+    }
+
+    interface PaymentService {
+        String TRANSFER = "/transfer/users/{userId}";
+    }
+
 }

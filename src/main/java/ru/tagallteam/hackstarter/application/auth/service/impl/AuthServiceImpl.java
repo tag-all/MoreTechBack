@@ -11,6 +11,7 @@ import ru.tagallteam.hackstarter.application.auth.model.AuthDto;
 import ru.tagallteam.hackstarter.application.auth.model.RegistrationDto;
 import ru.tagallteam.hackstarter.application.auth.model.TokenDto;
 import ru.tagallteam.hackstarter.application.auth.service.AuthService;
+import ru.tagallteam.hackstarter.application.lvl.domain.LvlRepository;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
@@ -29,7 +30,9 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtUtils jwtUtils;
 
-    private final AuthMapper authMapper = new AuthMapper();
+    private final LvlRepository lvlRepository;
+
+    private final AuthMapper authMapper;
 
     @Override
     public TokenDto authorization(AuthDto authDto) {
@@ -53,6 +56,9 @@ public class AuthServiceImpl implements AuthService {
     public TokenDto registration(RegistrationDto registrationDto) {
         ErrorDescriptor.USER_IS_CREATED.throwIsTrue(userRepository.existsByEmail(registrationDto.getEmail()));
         User user = authMapper.convertToUserRegistration(registrationDto);
+        user.setLvl(lvlRepository.getById(1L));
+        user.setXp(0L);
+        user.setBalance(0L);
         user = userRepository.save(user);
         Token token = new Token();
         token.setToken(jwtUtils.generateToken(TokenType.ACCESS, user.getEmail()));

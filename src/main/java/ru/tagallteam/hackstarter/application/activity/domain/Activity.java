@@ -1,22 +1,15 @@
 package ru.tagallteam.hackstarter.application.activity.domain;
 
 import lombok.Data;
+import ru.tagallteam.hackstarter.application.activity.model.ActivityType;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "customer")
+@Table(name = "activity")
 public class Activity {
 
     @Id
@@ -25,16 +18,17 @@ public class Activity {
     private Long id;
 
     @Column(name = "type")
-    private String type;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Enumerated(EnumType.STRING)
+    private ActivityType type;
 
     @Column(name = "activity_link_id")
     private Long activityId;
 
     @Column(name = "activity_date")
     private LocalDateTime activityDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }

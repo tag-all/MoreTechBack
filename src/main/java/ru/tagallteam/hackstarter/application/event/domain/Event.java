@@ -1,23 +1,13 @@
 package ru.tagallteam.hackstarter.application.event.domain;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
 import ru.tagallteam.hackstarter.application.admin.domain.Admin;
 import ru.tagallteam.hackstarter.application.user.domain.User;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -31,7 +21,14 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "creater", nullable = false)
-    private Admin admin;
+    private User creater;
+
+    @ManyToOne
+    @JoinColumn(name = "reviewer", nullable = false)
+    private User reviewer;
+
+    @Column(name = "reviewer_status")
+    private Boolean reviewerStatus;
 
     @Column(name = "topic")
     private String topic;

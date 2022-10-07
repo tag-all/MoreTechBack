@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Data;
-import ru.tagallteam.hackstarter.application.nft.domain.Nft;
 import ru.tagallteam.hackstarter.application.product.domain.Product;
 
 @Data
@@ -34,9 +33,6 @@ public class File {
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
-
-    @OneToMany(mappedBy = "file")
-    private List<Nft> nfts;
 
     @OneToMany(mappedBy = "file")
     private List<Product> products;

@@ -1,25 +1,14 @@
 package ru.tagallteam.hackstarter.application.user.domain;
 
 import lombok.Data;
-import ru.tagallteam.hackstarter.application.achievement.domain.Achievement;
 import ru.tagallteam.hackstarter.application.achievement.domain.AchievementUser;
+import ru.tagallteam.hackstarter.application.activity.domain.Activity;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
+import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
-import ru.tagallteam.hackstarter.application.nft.domain.Nft;
 
 @Data
 @Entity
@@ -43,8 +32,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "lvl")
-    private Long lvl;
+    @ManyToOne
+    @JoinColumn(name = "lvl_id", nullable = false)
+    private Lvl lvl;
 
     @Column(name = "xp")
     private Long xp;
@@ -55,16 +45,22 @@ public class User {
     @Column(name = "notification_status")
     private Boolean notificationStatus;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Token> token;
 
     @ManyToMany(mappedBy = "users")
     private List<Event> events;
 
-    @OneToMany(mappedBy = "user")
-    private List<Nft> nfts;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<AchievementUser> achievements;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Activity> activities;
+
+    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL)
+    private List<Event> reviewerEvents;
+
+    @OneToMany(mappedBy = "creater", cascade = CascadeType.ALL)
+    private List<Event> createrEvents;
 
 }

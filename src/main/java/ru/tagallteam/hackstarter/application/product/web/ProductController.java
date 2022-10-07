@@ -34,14 +34,6 @@ public class ProductController {
         return new ProductDto();
     }
 
-    @ApiOperation(value = "Полученеи товаров",
-            notes = "Получение товаров по фильтру")
-    @SystemError
-    @PostMapping(Endpoints.ProductService.PRODUCT_SEARCH)
-    public Page<ProductDto> productsSearch() {
-        return Page.empty();
-    }
-
     @ApiOperation(value = "Покупка товара",
             notes = "Покупка товара")
     @SystemError

@@ -12,6 +12,19 @@ public class UserMapper {
         profileDto.setName(user.getName());
         profileDto.setLastName(user.getLastName());
         profileDto.setEmail(user.getEmail());
+        profileDto.setLvl(user.getLvl().getId());
+        profileDto.setEx(user.getXp());
+        profileDto.setBalance(user.getBalance());
+        return profileDto;
+    }
+
+    public ProfileDto convertToUserDtoPublic(User user){
+        ProfileDto profileDto = new ProfileDto();
+        profileDto.setName(user.getName());
+        profileDto.setLastName(user.getLastName());
+        profileDto.setEmail(user.getEmail());
+        profileDto.setLvl(user.getLvl().getId());
+        profileDto.setEx(user.getXp());
         return profileDto;
     }
 }

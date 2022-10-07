@@ -1,4 +1,4 @@
-package ru.tagallteam.hackstarter.application.activity.domain;
+package ru.tagallteam.hackstarter.application.activity.model;
 
 public enum ActivityType {
     ACHIEVEMENT,

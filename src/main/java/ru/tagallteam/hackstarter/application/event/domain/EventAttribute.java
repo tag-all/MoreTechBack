@@ -1,16 +1,10 @@
 package ru.tagallteam.hackstarter.application.event.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.ToString;
+import ru.tagallteam.hackstarter.application.event.modal.EventAttributeType;
 
 @Data
 @Entity
@@ -26,7 +20,8 @@ public class EventAttribute {
     private Event event;
 
     @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private EventAttributeType type;
 
     @Column(name = "value")
     private String value;
