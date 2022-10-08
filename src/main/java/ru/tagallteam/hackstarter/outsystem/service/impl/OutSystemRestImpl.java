@@ -1,17 +1,14 @@
 package ru.tagallteam.hackstarter.outsystem.service.impl;
 
-import jdk.jfr.consumer.RecordedStackTrace;
+import java.util.Collections;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import ru.tagallteam.hackstarter.outsystem.model.SystemTemplate;
 import ru.tagallteam.hackstarter.outsystem.service.OutSystemRest;
-
-import java.util.Collections;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +17,7 @@ public class OutSystemRestImpl<T> implements OutSystemRest<T> {
     private final Map<String, SystemTemplate> outSystemRestTemplate;
 
     @Override
-    public <T> T getWithParam(String systemName, String url, Map<String, String> headerMap , Map<String, String> requestParam, Class<T> response) {
+    public <T> T getWithParam(String systemName, String url, Map<String, String> headerMap, Map<String, String> requestParam, Class<T> response) {
         SystemTemplate systemTemplate = outSystemRestTemplate.get(systemName);
         String requestUrl = systemTemplate.getSystem().getSystemLink().concat(url.concat(getPathParamInMap(requestParam)));
         return systemTemplate.getTemplate().getForObject(requestUrl, response);
@@ -44,7 +41,7 @@ public class OutSystemRestImpl<T> implements OutSystemRest<T> {
         return systemTemplate.getTemplate().postForObject(requestUrl, entity, response);
     }
 
-    private String getPathParamInMap(Map<String, String> requestParam){
+    private String getPathParamInMap(Map<String, String> requestParam) {
         StringBuilder requestUrl = new StringBuilder();
         requestParam.keySet().forEach(it -> requestUrl.append(it).append("=").append(requestParam.get(it)).append("&"));
         return requestUrl.isEmpty() ? "" : "?".concat(requestUrl.substring(0, requestUrl.length() - 1));

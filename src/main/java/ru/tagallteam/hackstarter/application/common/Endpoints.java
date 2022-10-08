@@ -48,8 +48,12 @@ public interface Endpoints {
 
     }
 
-    interface PaymentService {
+    interface TransferService {
         String TRANSFER = "/transfer/users/{userId}";
+
+        String TRANSFER_STATUS = "/transfers/{txHash}";
+
+        String TRANSFER_INFO = "/transfers/{txHash}/info";
     }
 
     interface FileService {

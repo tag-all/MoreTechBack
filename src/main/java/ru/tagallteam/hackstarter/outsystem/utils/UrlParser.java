@@ -1,4 +1,4 @@
-package ru.tagallteam.hackstarter.outsystem.config;
+package ru.tagallteam.hackstarter.outsystem.utils;
 
 import lombok.val;
 import org.springframework.stereotype.Component;

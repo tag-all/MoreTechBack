@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
+import ru.tagallteam.hackstarter.application.transfer.domain.Transfer;
 
 @Getter
 @Setter
@@ -51,9 +52,6 @@ public class User {
     @Column(name = "xp")
     private Long xp;
 
-    @Column(name = "balance")
-    private Long balance;
-
     @Column(name = "notification_status")
     private Boolean notificationStatus;
 
@@ -81,5 +79,11 @@ public class User {
 
     @OneToMany(mappedBy = "creater", cascade = CascadeType.ALL)
     private List<Event> createrEvents;
+
+    @OneToMany(mappedBy = "userSend", cascade = CascadeType.ALL)
+    private List<Transfer> transferSends;
+
+    @OneToMany(mappedBy = "userGet", cascade = CascadeType.ALL)
+    private List<Transfer> transferGet;
 
 }

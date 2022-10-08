@@ -15,6 +15,8 @@ import ru.tagallteam.hackstarter.application.lvl.domain.LvlRepository;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
+import ru.tagallteam.hackstarter.integration.modal.WalletDto;
+import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
 import ru.tagallteam.hackstarter.utils.JwtUtils;
 import ru.tagallteam.hackstarter.utils.TokenType;
 
@@ -33,6 +35,8 @@ public class AuthServiceImpl implements AuthService {
     private final LvlRepository lvlRepository;
 
     private final AuthMapper authMapper;
+
+    private final VtbIntegration integration;
 
     @Override
     public TokenDto authorization(AuthDto authDto) {
@@ -58,7 +62,9 @@ public class AuthServiceImpl implements AuthService {
         User user = authMapper.convertToUserRegistration(registrationDto);
         user.setLvl(lvlRepository.getById(1L));
         user.setXp(0L);
-        user.setBalance(0L);
+        WalletDto walletDto = integration.createWallet();
+        user.setPrivateKey(walletDto.getPrivateKey());
+        user.setPublicKey(walletDto.getPublicKey());
         user = userRepository.save(user);
         Token token = new Token();
         token.setToken(jwtUtils.generateToken(TokenType.ACCESS, user.getEmail()));

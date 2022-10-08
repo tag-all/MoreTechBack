@@ -1,16 +1,16 @@
-package ru.tagallteam.hackstarter.application.integration;
+package ru.tagallteam.hackstarter.integration;
 
 public interface Endpoints {
 
     String CREATE_WALLET = "/v1/wallets/new";
 
-    String TRANSLATION_MATIC = "/v1/transfers/matic";
+    String TRANSFER_MATIC = "/v1/transfers/matic";
 
-    String TRANSLATION_RUBLE = "/v1/transfers/ruble";
+    String TRANSFER_RUBLE = "/v1/transfers/ruble";
 
-    String TRANSLATION_NFT = "v1/transfers/nft";
+    String TRANSFER_NFT = "v1/transfers/nft";
 
-    String TRANSLATION_STATUS = "/v1/transfers/status/{transactionHash}";
+    String TRANSFER_STATUS = "/v1/transfers/status/{transactionHash}";
 
     String WALLET_BALANCE = "/v1/wallets/{publicKey}/balance";
 

@@ -17,6 +17,8 @@ import ru.tagallteam.hackstarter.application.common.filter.Page;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
 import ru.tagallteam.hackstarter.application.event.mapper.EventMapper;
 import ru.tagallteam.hackstarter.application.event.modal.EventDto;
+import ru.tagallteam.hackstarter.application.transfer.model.TransferDto;
+import ru.tagallteam.hackstarter.application.transfer.service.TransferService;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.mapper.UserMapper;
@@ -27,6 +29,7 @@ import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
 
 @Slf4j
 @Service
@@ -42,12 +45,19 @@ public class UserServiceImpl implements UserService {
 
     private final EventMapper eventMapper;
 
+    private final VtbIntegration integration;
+
+    private final TransferService transferService;
+
     @Override
     public ProfileDto getUserProfile() {
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getUserByEmail(profileDto.getEmail())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
-        ProfileDto profile = userMapper.convertToUserDto(user);
+
+        ProfileDto profile = userMapper.convertToUserDto(user,
+                integration.getBalanceWallet(user.getPublicKey()),
+                integration.getNftBalanceWallet(user.getPublicKey()));
         profile.setAchievements(user.getAchievements().stream()
                 .map((item) -> {
                     AchievementDto achievementDto = achievementMapper.convertToAchievementDto(item.getAchievement());
@@ -62,6 +72,10 @@ public class UserServiceImpl implements UserService {
         List<EventDto> events = user.getEvents().stream().sorted(Comparator.comparing(Event::getEventTime))
                 .limit(4).map(eventMapper::convertToEventDto).collect(Collectors.toList());
         profile.setEvents(events);
+        profile.setTransfersFrom(user.getTransferSends().stream()
+                .map(it -> transferService.transferModel(it.getKey())).toList());
+        profile.setTransfersTo(user.getTransferGet().stream()
+                .map(it -> transferService.transferModel(it.getKey())).toList());
         return profile;
     }
 

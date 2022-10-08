@@ -21,7 +21,6 @@ create table customer
     password            text                  not null,
     lvl_id              int references lvl (id),
     xp                  int     default 0     not null,
-    balance             int     default 0     not null,
     notification_status boolean default false not null,
     private_key text,
     public_key text
