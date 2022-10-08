@@ -1,9 +1,5 @@
 package ru.tagallteam.hackstarter.application.event.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -12,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
@@ -23,7 +20,12 @@ import ru.tagallteam.hackstarter.application.event.service.EventService;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
+import ru.tagallteam.hackstarter.application.user.service.UserService;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -35,6 +37,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public Page<EventDto> events(CommonFilter filter) {
@@ -72,17 +75,20 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void signInForEvent(Long eventId) {
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getUserByEmail(profileDto.getEmail())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
-        Event event = eventRepository.getById(eventId);
+        Event event = eventRepository.findById(eventId).orElseThrow(ErrorDescriptor.NOT_FOUND::applicationException);
         ErrorDescriptor.EVENT_NOT_PUBLIC.throwIsFalse(event.getReviewerStatus());
         List<User> users = event.getUsers();
         ErrorDescriptor.USER_IN_EVENT.throwIsTrue(users.stream().anyMatch(it -> it.getId().equals(user.getId())));
         users.add(user);
         event.setUsers(users);
         eventRepository.save(event);
+
+        userService.addXPtoUser(user.getId(), 50L);
     }
 
     @Override

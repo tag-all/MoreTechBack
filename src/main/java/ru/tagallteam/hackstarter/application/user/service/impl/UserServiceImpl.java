@@ -9,8 +9,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import ru.tagallteam.hackstarter.application.achievement.domain.Achievement;
+import ru.tagallteam.hackstarter.application.achievement.domain.AchievementRepository;
 import ru.tagallteam.hackstarter.application.achievement.mapper.AchievementMapper;
 import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
+import ru.tagallteam.hackstarter.application.achievement.service.AchievementService;
 import ru.tagallteam.hackstarter.application.activity.mapper.ActivityMapper;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
@@ -39,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final LvlRepository lvlRepository;
+    private final AchievementRepository achievementRepository;
 
     private final UserMapper userMapper;
     private final AchievementMapper achievementMapper;
@@ -50,6 +54,7 @@ public class UserServiceImpl implements UserService {
     private final VtbIntegration integration;
 
     private final TransferService transferService;
+    private final AchievementService achievementService;
 
     @Override
     public ProfileDto getUserProfile() {
@@ -129,7 +134,15 @@ public class UserServiceImpl implements UserService {
         Lvl nextLevel = lvlRepository.findLvlByName(String.valueOf((currentLevel + 1))).orElseThrow(ErrorDescriptor.NOT_FOUND::applicationException);
         if (newXp > nextLevel.getXp()) {
             user.setLvl(nextLevel);
+            addNewLevelAchievements(user.getId(), nextLevel);
         }
         userRepository.save(user);
+    }
+
+    public void addNewLevelAchievements(Long userId, Lvl lvl) {
+        val achievements = achievementRepository.findAchievementsByLvl(lvl);
+        for (Achievement achievement : achievements) {
+            achievementService.addAchievementToUser(userId, achievement.getId());
+        }
     }
 }

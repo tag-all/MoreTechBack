@@ -3,6 +3,7 @@ package ru.tagallteam.hackstarter.application.transfer.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tagallteam.hackstarter.application.transfer.domain.Transfer;
 import ru.tagallteam.hackstarter.application.transfer.domain.TransferRepository;
 import ru.tagallteam.hackstarter.application.transfer.mapper.TransferMapper;
@@ -13,11 +14,11 @@ import ru.tagallteam.hackstarter.application.transfer.service.TransferService;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
+import ru.tagallteam.hackstarter.application.user.service.UserService;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
 import ru.tagallteam.hackstarter.integration.modal.SendCurrency;
 import ru.tagallteam.hackstarter.integration.modal.SendNft;
 import ru.tagallteam.hackstarter.integration.modal.Status;
-import ru.tagallteam.hackstarter.integration.modal.TransactionDto;
 import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
 
 @Service
@@ -30,12 +31,15 @@ public class TransferServiceImpl implements TransferService {
 
     private final UserRepository userRepository;
 
+    private final UserService userService;
+
     private final TransferMapper transferMapper;
 
     @Override
+    @Transactional
     public void transfer(Long userId, TransferCreateModel transfer) {
-        ErrorDescriptor.USER_NOT_FOUND.throwIsFalse(userRepository.existsById(userId));
-        User user = userRepository.getById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userSend = userRepository.getUserByEmail(profileDto.getEmail())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
@@ -60,6 +64,7 @@ public class TransferServiceImpl implements TransferService {
             transferEntity.setUserGet(user);
             transferRepository.save(transferEntity);
         }
+        userService.addXPtoUser(userId, 20L);
     }
 
     @Override
