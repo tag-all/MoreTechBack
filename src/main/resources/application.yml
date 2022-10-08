@@ -33,3 +33,6 @@ out-system:
     - name: "VTB"
       systemLink: "https://hackathon.lsp.team/hk"
       bearer: false
+
+system-valet:
+  private-key: 5dfd7f093e1f356f98274cb77af3f5d2e14944de57c6dc27c4cbd36d6e43ea1a

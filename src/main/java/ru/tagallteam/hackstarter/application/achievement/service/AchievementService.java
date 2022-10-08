@@ -9,4 +9,5 @@ public interface AchievementService {
     List<AchievementDto> getAllAchievements();
     List<AchievementDto> getAllAchievementsGetByUser(Long userId);
     List<AchievementDto> getAllAchievementsNotGetByUser(Long userId);
+    void addAchievementToUser(Long userId, Long achievementId);
 }

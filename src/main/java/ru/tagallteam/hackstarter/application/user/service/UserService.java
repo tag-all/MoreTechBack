@@ -11,4 +11,6 @@ public interface UserService {
 
     Page<ProfileDto> userProfiles(CommonFilter filter);
 
+    void addXPtoUser(Long userId, Long XP);
+
 }
