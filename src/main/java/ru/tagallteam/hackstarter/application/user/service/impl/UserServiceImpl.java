@@ -14,6 +14,7 @@ import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
 import ru.tagallteam.hackstarter.application.activity.mapper.ActivityMapper;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
+import ru.tagallteam.hackstarter.application.event.domain.Event;
 import ru.tagallteam.hackstarter.application.event.mapper.EventMapper;
 import ru.tagallteam.hackstarter.application.event.modal.EventDto;
 import ru.tagallteam.hackstarter.application.user.domain.User;
@@ -58,11 +59,8 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(activityMapper::convertToActivityDto)
                 .collect(Collectors.toList()));
-        List<EventDto> events = user.getEventsOfUser()
-                .stream()
-                .sorted(Comparator.comparing((item) -> item.getEvent().getEventTime()))
-                .limit(4).map(item -> eventMapper.convertToEventDto(item.getEvent()))
-                .collect(Collectors.toList());
+        List<EventDto> events = user.getEvents().stream().sorted(Comparator.comparing(Event::getEventTime))
+                .limit(4).map(eventMapper::convertToEventDto).collect(Collectors.toList());
         profile.setEvents(events);
         return profile;
     }
@@ -83,11 +81,8 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(activityMapper::convertToActivityDto)
                 .collect(Collectors.toList()));
-        List<EventDto> events = user.getEventsOfUser()
-                .stream()
-                .sorted(Comparator.comparing((item) -> item.getEvent().getEventTime()))
-                .limit(4).map(item -> eventMapper.convertToEventDto(item.getEvent()))
-                .toList();
+        List<EventDto> events = user.getEvents().stream().sorted(Comparator.comparing(Event::getEventTime))
+                .limit(4).map(eventMapper::convertToEventDto).collect(Collectors.toList());
         profile.setEvents(events);
         return profile;
     }

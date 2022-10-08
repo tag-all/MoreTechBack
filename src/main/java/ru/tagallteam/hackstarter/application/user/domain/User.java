@@ -1,12 +1,12 @@
 package ru.tagallteam.hackstarter.application.user.domain;
 
+import javax.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 import ru.tagallteam.hackstarter.application.achievement.domain.AchievementUser;
 import ru.tagallteam.hackstarter.application.activity.domain.Activity;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
-import ru.tagallteam.hackstarter.application.event.domain.EventUser;
 import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 
 import javax.persistence.CascadeType;
@@ -48,10 +48,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "lvl_id", nullable = false)
-    private Lvl lvl;
-
     @Column(name = "xp")
     private Long xp;
 
@@ -61,14 +57,24 @@ public class User {
     @Column(name = "notification_status")
     private Boolean notificationStatus;
 
+    @Column(name = "private_key")
+    private String privateKey;
+
+    @Column(name = "public_key")
+    private String publicKey;
+
+    @ManyToOne
+    @JoinColumn(name = "lvl_id", nullable = false)
+    private Lvl lvl;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Token> token;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<AchievementUser> achievements;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<EventUser> eventsOfUser;
+    @ManyToMany(mappedBy = "users")
+    private List<Event> events;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Activity> activities;

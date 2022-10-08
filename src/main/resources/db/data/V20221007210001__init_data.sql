@@ -1,7 +1,6 @@
 insert into admin
 values (nextval('admin_seq'), 'admin_vtb', 'babalin2011@gmail.com',
         '$2a$10$ANfM2Yfyjpte7936Ky2Ly.IddEoFpNVVi4az93RU2.RacVr0O/BH6');
-
 insert into lvl
 values (nextval('lvl_seq'), 0, '1'),
        (nextval('lvl_seq'), 25, '2'),
@@ -103,3 +102,4 @@ values (nextval('lvl_seq'), 0, '1'),
        (nextval('lvl_seq'), 7128, '98'),
        (nextval('lvl_seq'), 7203, '99'),
        (nextval('lvl_seq'), 7278, '100');
+-- insert into customer values (nextval('customer_seq'), null, 'Юрий', 'Бабалин', 'babalin2011@gmail.com', 1, 0, 0, true);

@@ -11,6 +11,7 @@ import ru.tagallteam.hackstarter.errors.model.ErrorType;
 @AllArgsConstructor
 public enum ErrorDescriptor {
     USER_NOT_FOUND("Пользователь не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
+    USER_IN_EVENT("Вы уже записаны на метроприятие", ErrorType.APP, HttpStatus.BAD_REQUEST),
     FILE_NOT_FOUND("Файл не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
     USER_TOKEN_ACCESS_NOT_FOUND("Токен доступа с заданным идентификатором не найден", ErrorType.APP,
             HttpStatus.NOT_FOUND),

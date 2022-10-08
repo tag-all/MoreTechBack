@@ -1,5 +1,7 @@
 package ru.tagallteam.hackstarter.application.event.domain;
 
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 import ru.tagallteam.hackstarter.application.user.domain.User;
@@ -48,6 +50,12 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventAttribute> eventAttributes;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<EventUser> eventUsers;
+    @ManyToMany
+    @JoinTable(
+            name = "event_user",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users;
+
 }

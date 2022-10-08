@@ -51,7 +51,7 @@ public class EventMapper {
         EventAttribute eventAttribute = new EventAttribute();
         eventAttribute.setEvent(event);
         eventAttribute.setType(type);
-        eventAttribute.setValue(type.fromValue(val));
+        eventAttribute.setValue(type.fromValue(val).toUpperCase());
         return eventAttribute;
     }
 }
