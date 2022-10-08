@@ -2,6 +2,7 @@ package ru.tagallteam.hackstarter.application.user.service.impl;
 
 import java.util.Comparator;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -82,13 +83,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<ProfileDto> userProfiles(CommonFilter filter) {
+        Pageable pageable = PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("xp").descending());
         if (ObjectUtils.isEmpty(filter.getName())) {
-            Pageable pageable = PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("xp").descending());
             val profiles = userRepository.findAll(pageable)
                     .map(userMapper::convertToUserDtoPublic);
             return Page.of(profiles);
         } else {
-            Pageable pageable = PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("xp").descending());
             val profiles = userRepository.findUsersByNameContains(filter.getName(), pageable)
                     .map(userMapper::convertToUserDtoPublic);
             return Page.of(profiles);

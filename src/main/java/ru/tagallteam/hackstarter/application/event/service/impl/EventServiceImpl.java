@@ -1,10 +1,16 @@
 package ru.tagallteam.hackstarter.application.event.service.impl;
 
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
@@ -30,12 +36,31 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventDto> events(CommonFilter filter) {
-        return Page.empty();
+        Pageable pageable = getPageableForEvent(filter);
+        if (ObjectUtils.isEmpty(filter.getName())) {
+            val events = eventRepository.findAll(pageable)
+                    .map(eventMapper::convertToEventDto);
+            return Page.of(events);
+        } else {
+            val events = eventRepository.findEventsByTopicContains(filter.getName(), pageable)
+                    .map(eventMapper::convertToEventDto);
+            return Page.of(events);
+        }
     }
 
     @Override
     public Page<EventDto> eventsUser(Long userId, CommonFilter filter) {
-        return Page.empty();
+        Pageable pageable = getPageableForEvent(filter);
+        if (ObjectUtils.isEmpty(filter.getName())) {
+            val events = eventRepository.findUserEventsByUserId(userId, pageable)
+                    .map(eventMapper::convertToEventDto);
+            return Page.of(events);
+        } else {
+            val events = eventRepository.findUserEventsByUserIdWhichContains(userId, filter.getName(), pageable)
+                    .map(eventMapper::convertToEventDto);
+            return Page.of(events);
+        }
+
     }
 
     @Override
@@ -61,4 +86,10 @@ public class EventServiceImpl implements EventService {
         event.setUsers(users);
         eventRepository.save(event);
     }
+
+
+    private Pageable getPageableForEvent(CommonFilter filter) {
+        return PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("time_of_event").descending());
+    }
+
 }

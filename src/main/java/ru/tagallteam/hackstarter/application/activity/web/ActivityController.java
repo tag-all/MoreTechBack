@@ -23,7 +23,7 @@ public class ActivityController {
     @SystemError
     @PostMapping(Endpoints.ActivityService.ACTIVITIES)
     public Page<ActivityDto> activities(@RequestBody CommonFilter commonFilter) {
-        return Page.empty();
+        return activityService.getActivitiesByFilter(commonFilter);
     }
 
     @ApiOperation(value = "Получение активностей пользователя",
@@ -31,6 +31,6 @@ public class ActivityController {
     @SystemError
     @PostMapping(Endpoints.ActivityService.USER_ACTIVITIES)
     public Page<ActivityDto> userActivities(@RequestBody CommonFilter commonFilter, @PathVariable Long userId) {
-        return Page.empty();
+        return activityService.getUserActivitiesByFilter(commonFilter,userId);
     }
 }

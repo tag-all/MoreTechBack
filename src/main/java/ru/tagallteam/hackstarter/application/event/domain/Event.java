@@ -2,7 +2,6 @@ package ru.tagallteam.hackstarter.application.event.domain;
 
 import lombok.Data;
 import lombok.ToString;
-import ru.tagallteam.hackstarter.application.admin.domain.Admin;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 
 import javax.persistence.*;
@@ -18,7 +17,6 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "event_seq")
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "creater", nullable = false)
     private User creater;
@@ -31,7 +29,7 @@ public class Event {
     @Column(name = "topic")
     private String topic;
 
-    @Column(name = "time_of_event")
+    @Column(name = "Pageable pageable")
     private LocalDateTime eventTime;
 
     @Column(name = "description")
@@ -39,7 +37,6 @@ public class Event {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventAttribute> eventAttributes;
-
     @ManyToMany
     @JoinTable(
             name = "event_user",
