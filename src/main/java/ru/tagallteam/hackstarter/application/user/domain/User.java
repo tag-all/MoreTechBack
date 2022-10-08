@@ -6,6 +6,7 @@ import lombok.Setter;
 import ru.tagallteam.hackstarter.application.achievement.domain.AchievementUser;
 import ru.tagallteam.hackstarter.application.activity.domain.Activity;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
+import ru.tagallteam.hackstarter.application.clan.domain.Clan;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
 import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 
@@ -21,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.List;
+import ru.tagallteam.hackstarter.application.nft.domain.Nft;
 import ru.tagallteam.hackstarter.application.transfer.domain.Transfer;
 
 @Getter
@@ -74,6 +76,9 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Event> events;
 
+    @ManyToMany(mappedBy = "users")
+    private List<Clan> clans;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Activity> activities;
 
@@ -85,5 +90,8 @@ public class User {
 
     @OneToMany(mappedBy = "userGet", cascade = CascadeType.ALL)
     private List<Transfer> transferGet;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Nft> nfts;
 
 }
