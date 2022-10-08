@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Set;
 
+import ru.tagallteam.hackstarter.application.event.domain.EventAttribute;
 import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 
@@ -30,7 +31,9 @@ public class Achievement {
     private Lvl lvl;
 
     @OneToMany(mappedBy = "achievement", cascade = CascadeType.ALL)
-    private List<AchievementUser> requiredResourceList;
+    private List<AchievementAttribute> achievementAttributes;
 
+    @OneToMany(mappedBy = "achievement", cascade = CascadeType.ALL)
+    private List<AchievementUser> requiredResourceList;
 
 }

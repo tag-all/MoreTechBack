@@ -1,6 +1,5 @@
 package ru.tagallteam.hackstarter.application.event.domain;
 
-import java.util.Collection;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
