@@ -13,4 +13,5 @@ public interface EventService {
     void createEventsFeedback(EventDto event);
 
     void signInForEvent(Long eventId);
+
 }
