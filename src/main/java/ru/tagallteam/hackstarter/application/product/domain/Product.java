@@ -1,6 +1,10 @@
 package ru.tagallteam.hackstarter.application.product.domain;
 
 
+import lombok.Getter;
+import lombok.Setter;
+import ru.tagallteam.hackstarter.application.file.domain.File;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,16 +14,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import lombok.Data;
-import ru.tagallteam.hackstarter.application.file.domain.File;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "product")
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
-    @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "nft_seq")
+    @SequenceGenerator(name = "sequence", allocationSize = 1, sequenceName = "product_seq")
     private Long id;
 
     @Column(name = "name")
@@ -32,7 +36,7 @@ public class Product {
     private Long purchased;
 
     @Column(name = "number_of_products")
-    private Long number_of_products;
+    private Long numberOfProducts;
 
     @Column(name = "type")
     private String type;

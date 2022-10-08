@@ -23,7 +23,7 @@ public class EventController {
     private final EventService eventService;
 
     @ApiOperation(value = "Получение мероприятий",
-            notes = "Получение мероприятий ")
+            notes = "Получение мероприятий")
     @SystemError
     @PostMapping(Endpoints.EventService.EVENTS)
     public Page<EventDto> events(@RequestBody CommonFilter filter) {

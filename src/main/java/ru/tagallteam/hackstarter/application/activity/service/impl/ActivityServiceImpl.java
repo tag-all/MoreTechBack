@@ -8,21 +8,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import ru.tagallteam.hackstarter.application.activity.domain.Activity;
 import ru.tagallteam.hackstarter.application.activity.domain.ActivityRepository;
 import ru.tagallteam.hackstarter.application.activity.mapper.ActivityMapper;
 import ru.tagallteam.hackstarter.application.activity.model.ActivityDto;
 import ru.tagallteam.hackstarter.application.activity.service.ActivityService;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
-import ru.tagallteam.hackstarter.application.common.filter.SortType;
-import ru.tagallteam.hackstarter.application.product.domain.Product;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,7 +79,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 
     private Pageable getPageableForActivity(CommonFilter filter) {
-        return PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("activity_date").descending());
+        return PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("activityDate").descending());
     }
 
 }

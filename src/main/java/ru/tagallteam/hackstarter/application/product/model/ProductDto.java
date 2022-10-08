@@ -13,9 +13,9 @@ public class ProductDto {
 
     private Long purchased;
 
-    private Long number_of_product;
+    private Long numberOfProducts;
 
     private String type;
 
-    private Long file_id;
+    private Long fileId;
 }
