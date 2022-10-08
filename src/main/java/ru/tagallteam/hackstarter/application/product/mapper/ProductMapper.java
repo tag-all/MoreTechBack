@@ -12,12 +12,10 @@ public class ProductMapper {
         productDto.setName(product.getName());
         productDto.setPrice(product.getPrice());
         productDto.setPurchased(product.getPurchased());
-        productDto.setNumber_of_product(product.getNumber_of_products());
+        productDto.setNumberOfProducts(product.getNumberOfProducts());
         productDto.setType(product.getType());
-        productDto.setFile_id(product.getFile().getId());
+        productDto.setFileId(product.getFile().getId());
         return productDto;
     }
-
-
 
 }

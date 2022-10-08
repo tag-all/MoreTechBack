@@ -6,6 +6,7 @@ import ru.tagallteam.hackstarter.application.achievement.domain.AchievementUser;
 import ru.tagallteam.hackstarter.application.activity.domain.Activity;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
+import ru.tagallteam.hackstarter.application.event.domain.EventUser;
 import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -64,11 +64,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Token> token;
 
-    @ManyToMany(mappedBy = "users")
-    private List<Event> events;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<AchievementUser> achievements;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<EventUser> eventsOfUser;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Activity> activities;

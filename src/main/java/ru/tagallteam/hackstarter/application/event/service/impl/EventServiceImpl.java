@@ -1,7 +1,5 @@
 package ru.tagallteam.hackstarter.application.event.service.impl;
 
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -15,6 +13,8 @@ import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
 import ru.tagallteam.hackstarter.application.event.domain.EventRepository;
+import ru.tagallteam.hackstarter.application.event.domain.EventUser;
+import ru.tagallteam.hackstarter.application.event.domain.EventUserRepository;
 import ru.tagallteam.hackstarter.application.event.mapper.EventMapper;
 import ru.tagallteam.hackstarter.application.event.modal.EventDto;
 import ru.tagallteam.hackstarter.application.event.service.EventService;
@@ -31,6 +31,8 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
 
     private final EventRepository eventRepository;
+
+    private final EventUserRepository eventUserRepository;
 
     private final UserRepository userRepository;
 
@@ -50,17 +52,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventDto> eventsUser(Long userId, CommonFilter filter) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
         Pageable pageable = getPageableForEvent(filter);
-        if (ObjectUtils.isEmpty(filter.getName())) {
-            val events = eventRepository.findUserEventsByUserId(userId, pageable)
-                    .map(eventMapper::convertToEventDto);
-            return Page.of(events);
-        } else {
-            val events = eventRepository.findUserEventsByUserIdWhichContains(userId, filter.getName(), pageable)
-                    .map(eventMapper::convertToEventDto);
-            return Page.of(events);
-        }
-
+        val events = eventUserRepository.findEventUsersByUser(user, pageable)
+                .map(item -> eventMapper.convertToEventDto(item.getEvent()));
+        return Page.of(events);
     }
 
     @Override
@@ -79,17 +76,17 @@ public class EventServiceImpl implements EventService {
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getUserByEmail(profileDto.getEmail())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
-        Event event = eventRepository.getById(eventId);
+        Event event = eventRepository.findById(eventId).orElseThrow(ErrorDescriptor.EVENT_NOT_FOUND::applicationException);
         ErrorDescriptor.EVENT_NOT_PUBLIC.throwIsFalse(event.getReviewerStatus());
-        List<User> users = event.getUsers();
-        users.add(user);
-        event.setUsers(users);
-        eventRepository.save(event);
+        EventUser eventUser = new EventUser();
+        eventUser.setUser(user);
+        eventUser.setEvent(event);
+        eventUserRepository.save(eventUser);
     }
 
 
     private Pageable getPageableForEvent(CommonFilter filter) {
-        return PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("time_of_event").descending());
+        return PageRequest.of(filter.getPage() - 1, filter.getLimit(), Sort.by("eventTime").descending());
     }
 
 }

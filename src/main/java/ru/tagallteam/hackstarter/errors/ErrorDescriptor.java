@@ -3,7 +3,6 @@ package ru.tagallteam.hackstarter.errors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.ObjectUtils;
 import ru.tagallteam.hackstarter.errors.exception.ApplicationException;
 import ru.tagallteam.hackstarter.errors.model.ApplicationError;
 import ru.tagallteam.hackstarter.errors.model.ErrorType;
@@ -11,10 +10,10 @@ import ru.tagallteam.hackstarter.errors.model.ErrorType;
 @Getter
 @AllArgsConstructor
 public enum ErrorDescriptor {
-    USER_NOT_FOUND("Пользователь не найден", ErrorType.APP, HttpStatus.BAD_REQUEST),
-    FILE_NOT_FOUND("Файл не найден", ErrorType.APP, HttpStatus.BAD_REQUEST),
+    USER_NOT_FOUND("Пользователь не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
+    FILE_NOT_FOUND("Файл не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
     USER_TOKEN_ACCESS_NOT_FOUND("Токен доступа с заданным идентификатором не найден", ErrorType.APP,
-            HttpStatus.BAD_REQUEST),
+            HttpStatus.NOT_FOUND),
     EVENT_NOT_PUBLIC("Данное мероприятие находится на валидиции, вы не можете принять в нём участие",
             ErrorType.APP, HttpStatus.BAD_REQUEST),
     USER_LOGOUT_LAST("Пользователь уже вышел", ErrorType.APP, HttpStatus.BAD_REQUEST),
@@ -23,7 +22,10 @@ public enum ErrorDescriptor {
     UNAUTHORIZED_ACCESS("Неавторизованный доступ", ErrorType.APP, HttpStatus.UNAUTHORIZED),
     ACCESS_DENIED("Недостаточно прав для доступа к ресурсу", ErrorType.APP, HttpStatus.FORBIDDEN),
     NOT_FOUND("Запрошенный ресурс (интерфейс) не существует", ErrorType.APP, HttpStatus.NOT_FOUND),
-    OUT_SYSTEM_ERROR_IN_URL("Ошибка во время обработки URL внешнего сервиса", ErrorType.OUT_SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
+    OUT_SYSTEM_ERROR_IN_URL("Ошибка во время обработки URL внешнего сервиса", ErrorType.OUT_SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR),
+    PRODUCT_OUT_OF_STOCK("Товар закончился!", ErrorType.APP, HttpStatus.BAD_REQUEST),
+    EVENT_NOT_FOUND("Мероприятие не найдено", ErrorType.APP, HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_FOUND("Товар не найден", ErrorType.APP, HttpStatus.NOT_FOUND);
 
     private final String message;
 
@@ -47,12 +49,6 @@ public enum ErrorDescriptor {
 
     public void throwIsFalse(Boolean flag) {
         if (!flag) {
-            throwApplicationException();
-        }
-    }
-
-    public void throwIsNull(Object object) {
-        if (ObjectUtils.isEmpty(object)) {
             throwApplicationException();
         }
     }

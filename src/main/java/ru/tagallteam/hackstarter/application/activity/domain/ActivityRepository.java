@@ -12,10 +12,11 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
     List<Activity> findActivitiesByUser(User user);
 
-    Page<Activity> findActivitiesByUser_Id(Long id,Pageable pageable);
+    Page<Activity> findActivitiesByUser_Id(Long id, Pageable pageable);
 
     List<Activity> findActivitiesByActivityDateBeforeOrderByActivityDateDesc(LocalDateTime dateBefore);
 
     Page<Activity> findAllByTypeContains(String type, Pageable Pageable);
-    Page<Activity> findAllByTypeContainsAndUser_Id(String type,Long id, Pageable Pageable);
+
+    Page<Activity> findAllByTypeContainsAndUser_Id(String type, Long id, Pageable Pageable);
 }
