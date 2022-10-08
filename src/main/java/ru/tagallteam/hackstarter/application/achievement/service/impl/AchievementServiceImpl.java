@@ -6,6 +6,7 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import ru.tagallteam.hackstarter.application.achievement.domain.Achievement;
 import ru.tagallteam.hackstarter.application.achievement.domain.AchievementAttribute;
 import ru.tagallteam.hackstarter.application.achievement.domain.AchievementAttributeRepository;

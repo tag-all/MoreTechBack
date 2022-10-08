@@ -35,6 +35,6 @@ public class Lvl {
     @OneToMany(mappedBy = "lvl")
     private List<User> users;
 
-    @OneToMany(mappedBy = "lvl")
+    @OneToMany(mappedBy = "lvl", cascade = CascadeType.ALL)
     private List<Achievement> achievements;
 }
