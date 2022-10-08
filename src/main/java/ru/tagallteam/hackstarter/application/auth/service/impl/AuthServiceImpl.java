@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.tagallteam.hackstarter.application.achievement.service.AchievementService;
 import ru.tagallteam.hackstarter.application.auth.domain.Token;
 import ru.tagallteam.hackstarter.application.auth.domain.TokenRepository;
 import ru.tagallteam.hackstarter.application.auth.mapper.AuthMapper;
@@ -24,6 +26,8 @@ import ru.tagallteam.hackstarter.utils.TokenType;
 @Slf4j
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
+    private final AchievementService achievementService;
     private final TokenRepository tokenRepository;
 
     private final UserRepository userRepository;
@@ -57,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public TokenDto registration(RegistrationDto registrationDto) {
         ErrorDescriptor.USER_IS_CREATED.throwIsTrue(userRepository.existsByEmail(registrationDto.getEmail()));
         User user = authMapper.convertToUserRegistration(registrationDto);
@@ -73,6 +78,8 @@ public class AuthServiceImpl implements AuthService {
         TokenDto tokenDto = new TokenDto();
         tokenDto.setAccessToken(token.getToken());
         tokenDto.setAuthToken(jwtUtils.generateToken(TokenType.AUTH, user.getEmail()));
+
+        achievementService.addAchievementToUser(user.getId(), 1L);
         return tokenDto;
     }
 
