@@ -22,7 +22,7 @@ public class ClanController {
             notes = "Добавление нового пользователя в клан")
     @SystemError
     @PostMapping(Endpoints.ClanService.CLAN_NEW_USER)
-    public void addUserToClan(@RequestBody Long clanId, Long userId) {
+    public void addUserToClan(@PathVariable Long clanId, @PathVariable Long userId) {
         clanService.addUserToClan(clanId, userId);
     }
 
@@ -46,7 +46,7 @@ public class ClanController {
     @ApiOperation(value = "Получение клана для NFT",
             notes = "Получение клана для конкретного NFT")
     @SystemError
-    @GetMapping(Endpoints.ClanService.CLANS)
+    @GetMapping(Endpoints.ClanService.CLAN_NFT)
     public ClanDto getClanForNFT(@PathVariable Long nftId) {
         return clanService.getClanForNFT(nftId);
     }
