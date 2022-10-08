@@ -23,7 +23,7 @@ public interface VtbIntegration {
 
     Status statusTransaction(String transferKey);
 
-     BalanceWallet getBalanceWallet(String key);
+    BalanceWallet getBalanceWallet(String key);
 
     BalanceNtfWallet getNftBalanceWallet(String key);
 
