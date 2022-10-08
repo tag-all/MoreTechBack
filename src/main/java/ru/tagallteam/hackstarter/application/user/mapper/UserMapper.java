@@ -17,7 +17,7 @@ public class UserMapper {
         profileDto.setLastName(user.getLastName());
         profileDto.setEmail(user.getEmail());
         profileDto.setLvl(user.getLvl().getId());
-        profileDto.setEx(user.getXp());
+        profileDto.setXp(user.getXp());
         profileDto.setBalance(balance);
         profileDto.setBalanceNft(balanceNtfWallet);
         profileDto.setRole(!ObjectUtils.isEmpty(user.getRole()) ? UserRole.valueOf(user.getRole()) : null);
@@ -30,7 +30,7 @@ public class UserMapper {
         profileDto.setLastName(user.getLastName());
         profileDto.setEmail(user.getEmail());
         profileDto.setLvl(user.getLvl().getId());
-        profileDto.setEx(user.getXp());
+        profileDto.setXp(user.getXp());
         profileDto.setRole(!ObjectUtils.isEmpty(user.getRole()) ? UserRole.valueOf(user.getRole()) : null);
         return profileDto;
     }

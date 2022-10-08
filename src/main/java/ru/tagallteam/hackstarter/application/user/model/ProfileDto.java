@@ -18,7 +18,7 @@ public class ProfileDto {
     private String name;
     private String lastName;
     private Long lvl;
-    private Long ex;
+    private Long xp;
     private BalanceWallet balance;
     private BalanceNtfWallet balanceNft;
     private String email;

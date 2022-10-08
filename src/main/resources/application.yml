@@ -6,9 +6,9 @@ spring:
       matching-strategy: ant_path_matcher
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://ec2-34-242-84-130.eu-west-1.compute.amazonaws.com:5432/d47749r53cqacn
-    username: nvicrfkvsqiukz
-    password: 72cb063e2d15682a57574d2ac14a61e648d471dc9490d476df6236c832991ae4
+    url: jdbc:postgresql://ec2-54-91-223-99.compute-1.amazonaws.com:5432/d3o2eslh6jqdi0
+    username: bqcmwqbvpipfez
+    password: 9a80573372e3be6b557901c7caf0bea3db80546bd90c97e9dc3770f5287a66c0
   jpa:
     database: POSTGRESQL
   flyway:
