@@ -1,5 +1,6 @@
 package ru.tagallteam.hackstarter.application.event.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -82,6 +83,14 @@ public class EventServiceImpl implements EventService {
         users.add(user);
         event.setUsers(users);
         eventRepository.save(event);
+    }
+
+    @Override
+    public void completeEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(ErrorDescriptor.EVENT_NOT_FOUND::applicationException);
+        if (event.getEventTime().isBefore(LocalDateTime.now()))
+            eventRepository.delete(event);
     }
 
 

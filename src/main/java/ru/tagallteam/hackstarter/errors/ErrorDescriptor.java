@@ -13,7 +13,7 @@ public enum ErrorDescriptor {
     TRANSFER_NOT_FOUND("Транзакция не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
     USER_NOT_FOUND("Пользователь н" +
             "е найден", ErrorType.APP, HttpStatus.NOT_FOUND),
-    CLAN_NOT_FOUND("Сообщество не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
+    CLAN_NOT_FOUND("Сообщество не найдено", ErrorType.APP, HttpStatus.NOT_FOUND),
     USER_IN_EVENT("Вы уже записаны на метроприятие", ErrorType.APP, HttpStatus.BAD_REQUEST),
     FILE_NOT_FOUND("Файл не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
     USER_TOKEN_ACCESS_NOT_FOUND("Токен доступа с заданным идентификатором не найден", ErrorType.APP,
