@@ -60,4 +60,18 @@ public interface Endpoints {
         String FILE = "/files/{uuid}";
     }
 
+    interface ClanService {
+
+        String CLANS = "/clans";
+
+        String CLANS_USER = "/clans/user/{id}";
+
+        String CLAN_NFT = "/clan/nft/{id}";
+
+        String CLAN_NEW_USER = "/clan/{clan-id}/new-user/{user-id}";
+
+
+    }
+
 }
+
