@@ -20,7 +20,7 @@ public class FileController {
 
     private final FileService fileService;
 
-    @ApiOperation(value = "Полученеи файла",
+    @ApiOperation(value = "Получение файла",
             notes = "Получение файла из бд")
     @SystemError
     @GetMapping(Endpoints.FileService.FILE)

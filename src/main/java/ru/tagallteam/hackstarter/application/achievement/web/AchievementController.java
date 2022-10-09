@@ -1,5 +1,6 @@
 package ru.tagallteam.hackstarter.application.achievement.web;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import ru.tagallteam.hackstarter.errors.annotations.SystemError;
 
 import java.util.List;
 
+@Api(tags = "Работа с достижениями")
 @RestController
 @RequiredArgsConstructor
 public class AchievementController {

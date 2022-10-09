@@ -1,5 +1,6 @@
 package ru.tagallteam.hackstarter.application.product.web;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import ru.tagallteam.hackstarter.errors.annotations.SystemError;
 
 import java.util.List;
 
+@Api(tags = "Работа с товарами")
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
