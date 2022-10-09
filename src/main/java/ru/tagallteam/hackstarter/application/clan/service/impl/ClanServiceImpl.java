@@ -5,6 +5,8 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.tagallteam.hackstarter.application.achievement.service.AchievementService;
 import ru.tagallteam.hackstarter.application.clan.domain.Clan;
 import ru.tagallteam.hackstarter.application.clan.domain.ClanRepository;
 import ru.tagallteam.hackstarter.application.clan.mapper.ClanMapper;
@@ -16,18 +18,15 @@ import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
-import ru.tagallteam.hackstarter.errors.exception.ApplicationException;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import ru.tagallteam.hackstarter.integration.modal.NftCreate;
 import ru.tagallteam.hackstarter.integration.modal.NftCreateTransaction;
 import ru.tagallteam.hackstarter.integration.modal.NftGenerateInfo;
-import ru.tagallteam.hackstarter.integration.modal.SendNft;
-import ru.tagallteam.hackstarter.integration.modal.TransactionDto;
 import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Service
@@ -41,6 +40,7 @@ public class ClanServiceImpl implements ClanService {
     private final ClanMapper clanMapper;
 
     private final VtbIntegration integration;
+    private final AchievementService achievementService;
 
     @Override
     public List<ClanDto> getAllClans() {
@@ -70,6 +70,7 @@ public class ClanServiceImpl implements ClanService {
 
     @SneakyThrows
     @Override
+    @Transactional
     public void addUserToClan(Long clan_id) {
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getUserByEmail(profileDto.getEmail())
@@ -92,6 +93,8 @@ public class ClanServiceImpl implements ClanService {
         clan = clanRepository.save(clan);
         nft.setClan(clan);
         nftRepository.save(nft);
+
+        achievementService.addAchievementToUser(user.getId(), 9L);
     }
 
 }
