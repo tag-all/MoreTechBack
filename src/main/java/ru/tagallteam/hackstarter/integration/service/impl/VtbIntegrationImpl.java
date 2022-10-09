@@ -8,6 +8,8 @@ import ru.tagallteam.hackstarter.integration.Endpoints;
 import ru.tagallteam.hackstarter.integration.modal.BalanceNtfWallet;
 import ru.tagallteam.hackstarter.integration.modal.BalanceWallet;
 import ru.tagallteam.hackstarter.integration.modal.FilterHistory;
+import ru.tagallteam.hackstarter.integration.modal.NftCreate;
+import ru.tagallteam.hackstarter.integration.modal.NftCreateTransaction;
 import ru.tagallteam.hackstarter.integration.modal.NftGenerateInfo;
 import ru.tagallteam.hackstarter.integration.modal.SendCurrency;
 import ru.tagallteam.hackstarter.integration.modal.SendNft;
@@ -73,18 +75,23 @@ public class VtbIntegrationImpl implements VtbIntegration {
     }
 
     @Override
-    public TransactionDto generateNft(SendNft sendNft) {
-        return null;
+    public NftCreateTransaction generateNft(NftCreate nftCreate) {
+        return outSystemRest.post(SystemRequest.VTB.getName(), Endpoints.NFT_COLLECTION_GENERATE, Collections.emptyMap(),
+                Collections.emptyMap(), nftCreate, NftCreateTransaction.class);
     }
 
     @Override
-    public SendNft getGenerateNft() {
-        return null;
+    public SendNft getGenerateNft(Long tokenId) {
+        String url = urlParser.getFullUrl(Endpoints.LIST_NFT_COLLECTION, Map.of("tokenId", tokenId.toString()));
+        return outSystemRest.getWithOutParam(SystemRequest.VTB.getName(), url, Collections.emptyMap(),
+                SendNft.class);
     }
 
     @Override
-    public NftGenerateInfo getNftInfo() {
-        return null;
+    public NftGenerateInfo getNftInfo(String key) {
+        String url = urlParser.getFullUrl(Endpoints.NFT_INFO, Map.of("transactionHash", key));
+        return outSystemRest.getWithOutParam(SystemRequest.VTB.getName(), url, Collections.emptyMap(),
+                NftGenerateInfo.class);
     }
 
     @Override

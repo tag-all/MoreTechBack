@@ -3,6 +3,8 @@ package ru.tagallteam.hackstarter.integration.service;
 import ru.tagallteam.hackstarter.integration.modal.BalanceNtfWallet;
 import ru.tagallteam.hackstarter.integration.modal.BalanceWallet;
 import ru.tagallteam.hackstarter.integration.modal.FilterHistory;
+import ru.tagallteam.hackstarter.integration.modal.NftCreate;
+import ru.tagallteam.hackstarter.integration.modal.NftCreateTransaction;
 import ru.tagallteam.hackstarter.integration.modal.NftGenerateInfo;
 import ru.tagallteam.hackstarter.integration.modal.SendCurrency;
 import ru.tagallteam.hackstarter.integration.modal.SendNft;
@@ -27,11 +29,11 @@ public interface VtbIntegration {
 
     BalanceNtfWallet getNftBalanceWallet(String key);
 
-    TransactionDto generateNft(SendNft sendNft);
+    NftCreateTransaction generateNft(NftCreate nftCreate);
 
-    SendNft getGenerateNft();
+    SendNft getGenerateNft(Long tokenId);
 
-    NftGenerateInfo getNftInfo();
+    NftGenerateInfo getNftInfo(String key);
 
     WalletHistory getWalletHistory(FilterHistory filter);
 }

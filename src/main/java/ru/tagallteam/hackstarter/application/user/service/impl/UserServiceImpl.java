@@ -22,6 +22,9 @@ import ru.tagallteam.hackstarter.application.event.mapper.EventMapper;
 import ru.tagallteam.hackstarter.application.event.modal.EventDto;
 import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 import ru.tagallteam.hackstarter.application.lvl.domain.LvlRepository;
+import ru.tagallteam.hackstarter.application.transfer.domain.Transfer;
+import ru.tagallteam.hackstarter.application.transfer.domain.TransferRepository;
+import ru.tagallteam.hackstarter.application.transfer.mapper.TransferMapper;
 import ru.tagallteam.hackstarter.application.transfer.service.TransferService;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
@@ -53,8 +56,11 @@ public class UserServiceImpl implements UserService {
 
     private final VtbIntegration integration;
 
-    private final TransferService transferService;
     private final AchievementService achievementService;
+
+    private final TransferRepository transferRepository;
+
+    private final TransferMapper transferMapper;
 
     @Override
     public ProfileDto getUserProfile() {
@@ -80,9 +86,17 @@ public class UserServiceImpl implements UserService {
                 .limit(4).map(eventMapper::convertToEventDto).collect(Collectors.toList());
         profile.setEvents(events);
         profile.setTransfersFrom(user.getTransferSends().stream()
-                .map(it -> transferService.transferModel(it.getKey())).toList());
+                .map(it -> {
+                    Transfer transfer = transferRepository.getByKey(it.getKey())
+                            .orElseThrow(ErrorDescriptor.TRANSFER_NOT_FOUND::applicationException);
+                    return transferMapper.convertToTransferDto(transfer, integration.statusTransaction(it.getKey()));
+                }).collect(Collectors.toList()));
         profile.setTransfersTo(user.getTransferGet().stream()
-                .map(it -> transferService.transferModel(it.getKey())).toList());
+                .map(it -> {
+                    Transfer transfer = transferRepository.getByKey(it.getKey())
+                            .orElseThrow(ErrorDescriptor.TRANSFER_NOT_FOUND::applicationException);
+                    return transferMapper.convertToTransferDto(transfer, integration.statusTransaction(it.getKey()));
+                }).collect(Collectors.toList()));
         return profile;
     }
 
@@ -131,7 +145,8 @@ public class UserServiceImpl implements UserService {
         long currentLevel = Long.parseLong(user.getLvl().getName());
 
         user.setXp(newXp);
-        Lvl nextLevel = lvlRepository.findLvlByName(String.valueOf((currentLevel + 1))).orElseThrow(ErrorDescriptor.NOT_FOUND::applicationException);
+        Lvl nextLevel = lvlRepository.findLvlByName(String.valueOf((currentLevel + 1)))
+                .orElseThrow(ErrorDescriptor.NOT_FOUND::applicationException);
         if (newXp > nextLevel.getXp()) {
             user.setLvl(nextLevel);
             addNewLevelAchievements(user.getId(), nextLevel);
@@ -139,7 +154,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    public void addNewLevelAchievements(Long userId, Lvl lvl) {
+    private void addNewLevelAchievements(Long userId, Lvl lvl) {
         val achievements = achievementRepository.findAchievementsByLvl(lvl);
         for (Achievement achievement : achievements) {
             achievementService.addAchievementToUser(userId, achievement.getId());

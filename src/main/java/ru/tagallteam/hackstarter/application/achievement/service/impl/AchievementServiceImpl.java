@@ -18,6 +18,8 @@ import ru.tagallteam.hackstarter.application.achievement.mapper.AchievementMappe
 import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
 import ru.tagallteam.hackstarter.application.achievement.service.AchievementService;
 import ru.tagallteam.hackstarter.application.event.modal.EventAttributeType;
+import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
+import ru.tagallteam.hackstarter.application.lvl.domain.LvlRepository;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.service.UserService;
@@ -38,12 +40,12 @@ import java.util.stream.Collectors;
 public class AchievementServiceImpl implements AchievementService {
 
     private final AchievementRepository achievementRepository;
-    private final UserService userService;
     private final VtbIntegration vtbIntegration;
     private final AchievementUserRepository achievementUserRepository;
     private final AchievementAttributeRepository achievementAttributeRepository;
     private final UserRepository userRepository;
     private final AchievementMapper achievementMapper;
+    private final LvlRepository lvlRepository;
 
     @Value("${system-valet.private-key}")
     private String privateKey;
@@ -117,13 +119,31 @@ public class AchievementServiceImpl implements AchievementService {
             }
         }
         if (type.equals("XP")) {
-            userService.addXPtoUser(userId, number);
+            User userXp = userRepository.findById(userId)
+                    .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
+            Long newXp = userXp.getXp() + number;
+            long currentLevel = Long.parseLong(userXp.getLvl().getName());
+            userXp.setXp(newXp);
+            Lvl nextLevel = lvlRepository.findLvlByName(String.valueOf((currentLevel + 1)))
+                    .orElseThrow(ErrorDescriptor.NOT_FOUND::applicationException);
+            if (newXp > nextLevel.getXp()) {
+                userXp.setLvl(nextLevel);
+                addNewLevelAchievements(userXp.getId(), nextLevel);
+            }
+            userRepository.save(userXp);
         } else if (type.equals("DR")) {
             vtbIntegration.sendRuble(SendCurrency.builder()
                     .amount((float) number)
                     .fromPrivateKey(privateKey)
                     .toPublicKey(user.getPublicKey())
                     .build());
+        }
+    }
+
+    private void addNewLevelAchievements(Long userId, Lvl lvl) {
+        val achievements = achievementRepository.findAchievementsByLvl(lvl);
+        for (Achievement achievement : achievements) {
+            addAchievementToUser(userId, achievement.getId());
         }
     }
 

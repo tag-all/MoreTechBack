@@ -1,6 +1,7 @@
 package ru.tagallteam.hackstarter.application.clan.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.tagallteam.hackstarter.application.clan.domain.Clan;
 import ru.tagallteam.hackstarter.application.clan.domain.ClanRepository;
@@ -18,8 +19,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import ru.tagallteam.hackstarter.integration.modal.NftCreate;
+import ru.tagallteam.hackstarter.integration.modal.NftCreateTransaction;
+import ru.tagallteam.hackstarter.integration.modal.NftGenerateInfo;
+import ru.tagallteam.hackstarter.integration.modal.SendNft;
+import ru.tagallteam.hackstarter.integration.modal.TransactionDto;
+import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class ClanServiceImpl implements ClanService {
 
@@ -27,6 +35,8 @@ public class ClanServiceImpl implements ClanService {
     private final UserRepository userRepository;
     private final NftRepository nftRepository;
     private final ClanMapper clanMapper;
+
+    private final VtbIntegration integration;
 
     @Override
     public List<ClanDto> getAllClans() {
@@ -61,7 +71,21 @@ public class ClanServiceImpl implements ClanService {
         Clan clan = clanRepository.findById(clan_id)
                 .orElseThrow(ErrorDescriptor.CLAN_NOT_FOUND::applicationException);
         clan.getUsers().add(user);
-        clanRepository.save(clan);
+        clan = clanRepository.save(clan);
+        NftCreate nftCreate = NftCreate.builder()
+                .toPublicKey(user.getPublicKey())
+                .uri(clan.getStart_img())
+                .nftCount(1L).build();
+        NftCreateTransaction transaction = integration.generateNft(nftCreate);
+        log.info("tr: {}", integration.getNftInfo(transaction.getTransactionHash()));
+        NftGenerateInfo nftGenerateInfo = integration.getNftInfo(transaction.getTransactionHash());
+        Nft nft = new Nft();
+        nft.setUser(user);
+        nft.setClan(clan);
+        nft.setName(clan.getName().concat(" #").concat(String.valueOf(nftGenerateInfo.getTokens().get(0))));
+        nft.setTxHash(String.valueOf(nftGenerateInfo.getTokens().get(0)));
+        nft.setPrice(1L);
+        nftRepository.save(nft);
     }
 
 }
