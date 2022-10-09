@@ -63,6 +63,7 @@ public interface Endpoints {
     interface ClanService {
 
         String CLANS = "/clans";
+        String CLANS_WITH_PRICE = "/clans/price";
 
         String CLANS_USER = "/clans/user/{userId}";
 

@@ -11,6 +11,7 @@ import ru.tagallteam.hackstarter.application.clan.domain.Clan;
 import ru.tagallteam.hackstarter.application.clan.domain.ClanRepository;
 import ru.tagallteam.hackstarter.application.clan.mapper.ClanMapper;
 import ru.tagallteam.hackstarter.application.clan.model.ClanDto;
+import ru.tagallteam.hackstarter.application.clan.model.ClanPriceDto;
 import ru.tagallteam.hackstarter.application.clan.service.ClanService;
 import ru.tagallteam.hackstarter.application.nft.domain.Nft;
 import ru.tagallteam.hackstarter.application.nft.domain.NftRepository;
@@ -23,7 +24,9 @@ import ru.tagallteam.hackstarter.integration.modal.NftCreateTransaction;
 import ru.tagallteam.hackstarter.integration.modal.NftGenerateInfo;
 import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,6 +98,26 @@ public class ClanServiceImpl implements ClanService {
         nftRepository.save(nft);
 
         achievementService.addAchievementToUser(user.getId(), 9L);
+    }
+
+    @Override
+    public List<ClanPriceDto> getAllClansRating() {
+        List<Clan> clans = clanRepository.findAll();
+
+        List<ClanPriceDto> resultClans = new ArrayList<>();
+        for (Clan clan : clans) {
+            Long price = 0L;
+            List<Nft> nfts = clan.getNfts();
+            for (Nft nft : nfts) {
+                price += nft.getPrice();
+            }
+            ClanPriceDto clanPriceDto = (ClanPriceDto) clanMapper.convertToClanDto(clan);
+            clanPriceDto.setPrice(price);
+            resultClans.add(clanPriceDto);
+        }
+        Comparator<ClanPriceDto> byPrice = Comparator.comparing(ClanPriceDto::getPrice).reversed();
+        resultClans.sort(byPrice);
+        return resultClans;
     }
 
 }

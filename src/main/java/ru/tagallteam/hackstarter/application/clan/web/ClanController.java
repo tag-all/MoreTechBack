@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.tagallteam.hackstarter.application.clan.model.ClanDto;
+import ru.tagallteam.hackstarter.application.clan.model.ClanPriceDto;
 import ru.tagallteam.hackstarter.application.clan.service.ClanService;
 import ru.tagallteam.hackstarter.application.common.Endpoints;
 import ru.tagallteam.hackstarter.errors.annotations.SystemError;
@@ -51,5 +52,11 @@ public class ClanController {
         return clanService.getClanForNFT(nftId);
     }
 
-
+    @ApiOperation(value = "Получение кланов с общим весом",
+            notes = "Получение кланов с общим весом с сортировкой по убыванию")
+    @SystemError
+    @GetMapping(Endpoints.ClanService.CLANS_WITH_PRICE)
+    public List<ClanPriceDto> getClansRating(){
+        return clanService.getAllClansRating();
+    }
 }
