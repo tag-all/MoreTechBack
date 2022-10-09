@@ -70,7 +70,12 @@ public interface Endpoints {
 
         String CLAN_NEW_USER = "/clans/{clanId}";
 
+    }
 
+    interface NftService{
+        String USER_NFT = "/ntfs/users/{userId}";
+
+        String NFT_INFO_WITH_USER = "/ntfs/{tokenId}";
     }
 
 }

@@ -6,6 +6,7 @@ import ru.tagallteam.hackstarter.integration.modal.FilterHistory;
 import ru.tagallteam.hackstarter.integration.modal.NftCreate;
 import ru.tagallteam.hackstarter.integration.modal.NftCreateTransaction;
 import ru.tagallteam.hackstarter.integration.modal.NftGenerateInfo;
+import ru.tagallteam.hackstarter.integration.modal.NftTokenDto;
 import ru.tagallteam.hackstarter.integration.modal.SendCurrency;
 import ru.tagallteam.hackstarter.integration.modal.SendNft;
 import ru.tagallteam.hackstarter.integration.modal.Status;
@@ -33,7 +34,7 @@ public interface VtbIntegration {
 
     NftGenerateInfo getGenerateNft(String key);
 
-    SendNft getNftInfo(Long tokenId);
+    NftTokenDto getNftInfo(Long tokenId);
 
     WalletHistory getWalletHistory(FilterHistory filter);
 }

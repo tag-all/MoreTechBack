@@ -11,6 +11,7 @@ import ru.tagallteam.hackstarter.integration.modal.FilterHistory;
 import ru.tagallteam.hackstarter.integration.modal.NftCreate;
 import ru.tagallteam.hackstarter.integration.modal.NftCreateTransaction;
 import ru.tagallteam.hackstarter.integration.modal.NftGenerateInfo;
+import ru.tagallteam.hackstarter.integration.modal.NftTokenDto;
 import ru.tagallteam.hackstarter.integration.modal.SendCurrency;
 import ru.tagallteam.hackstarter.integration.modal.SendNft;
 import ru.tagallteam.hackstarter.integration.modal.Status;
@@ -88,10 +89,10 @@ public class VtbIntegrationImpl implements VtbIntegration {
     }
 
     @Override
-    public SendNft getNftInfo(Long tokenId) {
+    public NftTokenDto getNftInfo(Long tokenId) {
         String url = urlParser.getFullUrl(Endpoints.NFT_INFO, Map.of("tokenId", tokenId.toString()));
         return outSystemRest.getWithOutParam(SystemRequest.VTB.getName(), url, Collections.emptyMap(),
-                SendNft.class);
+                NftTokenDto.class);
     }
 
     @Override
