@@ -1,5 +1,10 @@
 package ru.tagallteam.hackstarter.application.user.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -22,20 +27,19 @@ import ru.tagallteam.hackstarter.application.event.mapper.EventMapper;
 import ru.tagallteam.hackstarter.application.event.modal.EventDto;
 import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 import ru.tagallteam.hackstarter.application.lvl.domain.LvlRepository;
+import ru.tagallteam.hackstarter.application.nft.domain.NftRepository;
 import ru.tagallteam.hackstarter.application.transfer.domain.Transfer;
 import ru.tagallteam.hackstarter.application.transfer.domain.TransferRepository;
 import ru.tagallteam.hackstarter.application.transfer.mapper.TransferMapper;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.mapper.UserMapper;
+import ru.tagallteam.hackstarter.application.user.model.BalanceNftDto;
 import ru.tagallteam.hackstarter.application.user.model.ProfileDto;
 import ru.tagallteam.hackstarter.application.user.service.UserService;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
+import ru.tagallteam.hackstarter.integration.modal.BalanceNtfWallet;
 import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -61,15 +65,29 @@ public class UserServiceImpl implements UserService {
 
     private final TransferMapper transferMapper;
 
+    private final NftRepository nftRepository;
+
     @Override
     public ProfileDto getUserProfile() {
         ProfileDto profileDto = (ProfileDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.getUserByEmail(profileDto.getEmail())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
-
+        BalanceNtfWallet balanceNtfWallet = integration.getNftBalanceWallet(user.getPublicKey());
+        List<BalanceNftDto> balanceNftDtoList = new ArrayList<>(Collections.emptyList());
+        balanceNtfWallet.getBalance().forEach(it ->
+                it.tokens.forEach(el -> {
+                            BalanceNftDto balanceNftDto = BalanceNftDto.builder()
+                                    .uri(it.uri)
+                                    .txHash(el.toString())
+                                    .build();
+                            nftRepository.getNftByTxHash(el.toString())
+                                    .ifPresent(value -> balanceNftDto.setName(value.getName()));
+                            balanceNftDtoList.add(balanceNftDto);
+                        }
+                ));
         ProfileDto profile = userMapper.convertToUserDto(user,
                 integration.getBalanceWallet(user.getPublicKey()),
-                integration.getNftBalanceWallet(user.getPublicKey()));
+                balanceNftDtoList);
         profile.setAchievements(user.getAchievements().stream()
                 .map((item) -> {
                     AchievementDto achievementDto = achievementMapper.convertToAchievementDto(item.getAchievement());

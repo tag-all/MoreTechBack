@@ -20,7 +20,7 @@ public class ProfileDto {
     private Long lvl;
     private Long xp;
     private BalanceWallet balance;
-    private BalanceNtfWallet balanceNft;
+    private List<BalanceNftDto> balanceNft;
     private String email;
     private List<AchievementDto> achievements;
     private List<ActivityDto> activities;

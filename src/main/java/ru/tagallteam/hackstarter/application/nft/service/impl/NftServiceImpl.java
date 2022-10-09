@@ -39,7 +39,7 @@ public class NftServiceImpl implements NftService {
         NftTokenDto nftTokenDto = integration.getNftInfo(tokenId);
         User user = userRepository.getUserByPublicKey(nftTokenDto.getPublicKey())
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
-        NftUserDto nftUserDto = (NftUserDto) mapper.convertToNftDto(user.getNfts().stream()
+        NftUserDto nftUserDto = mapper.convertToNftUserDto(user.getNfts().stream()
                 .filter(it -> it.getTxHash().equals(tokenId.toString())).findFirst()
                 .orElseThrow(ErrorDescriptor.NFT_NOT_FOUND::applicationException), nftTokenDto.getUri());
         nftUserDto.setOwner(user.getName().concat(" ").concat(user.getLastName()));

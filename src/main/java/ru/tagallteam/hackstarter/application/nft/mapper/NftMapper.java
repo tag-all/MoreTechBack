@@ -19,4 +19,13 @@ public class NftMapper {
         return nftDto;
     }
 
+    public NftUserDto convertToNftUserDto(Nft nft, String uri){
+        NftUserDto nftDto = new NftUserDto();
+        nftDto.setName(nft.getName());
+        nftDto.setTxHash(nft.getTxHash());
+        nftDto.setPrice(nft.getPrice());
+        nftDto.setClanId(nft.getClan().getId());
+        nftDto.setUri(uri);
+        return nftDto;
+    }
 }

@@ -80,6 +80,7 @@ public class ClanServiceImpl implements ClanService {
                 .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
         Clan clan = clanRepository.findById(clan_id)
                 .orElseThrow(ErrorDescriptor.CLAN_NOT_FOUND::applicationException);
+        ErrorDescriptor.USER_IN_CLAN.throwIsTrue(user.getClans().stream().anyMatch(it -> it.getId().equals(clan_id)));
         NftCreate nftCreate = NftCreate.builder()
                 .toPublicKey(user.getPublicKey())
                 .uri(clan.getStart_img())

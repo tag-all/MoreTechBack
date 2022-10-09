@@ -12,6 +12,7 @@ import ru.tagallteam.hackstarter.errors.model.ErrorType;
 public enum ErrorDescriptor {
     TRANSFER_NOT_FOUND("Транзакция не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
     USER_NOT_FOUND("Пользователь не найден", ErrorType.APP, HttpStatus.NOT_FOUND),
+    USER_IN_CLAN("Пользователь уже в сообществе", ErrorType.APP, HttpStatus.NOT_FOUND),
     NFT_NOT_FOUND("Nft не найдено", ErrorType.APP, HttpStatus.NOT_FOUND),
     CLAN_NOT_FOUND("Сообщество не найдено", ErrorType.APP, HttpStatus.NOT_FOUND),
     USER_IN_EVENT("Вы уже записаны на метроприятие", ErrorType.APP, HttpStatus.BAD_REQUEST),
