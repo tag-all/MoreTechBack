@@ -18,6 +18,7 @@ public class EventMapper {
 
     public EventDto convertToEventDto(Event event){
         EventDto eventDto = new EventDto();
+        eventDto.setId(event.getId());
         eventDto.setTopic(event.getTopic());
         eventDto.setDescription(event.getDescription());
         eventDto.setEventTime(event.getEventTime());

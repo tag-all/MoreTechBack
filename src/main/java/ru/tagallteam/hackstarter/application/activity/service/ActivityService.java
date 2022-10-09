@@ -1,6 +1,7 @@
 package ru.tagallteam.hackstarter.application.activity.service;
 
 import ru.tagallteam.hackstarter.application.activity.model.ActivityDto;
+import ru.tagallteam.hackstarter.application.activity.model.ActivityType;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
 
@@ -15,5 +16,5 @@ public interface ActivityService {
     Page<ActivityDto> getActivitiesByFilter(CommonFilter filter);
     Page<ActivityDto> getUserActivitiesByFilter(CommonFilter filter, Long userId);
 
-
+    void addActivityToUser(Long userId, ActivityType activityType, Long activityId);
 }

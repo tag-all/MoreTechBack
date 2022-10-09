@@ -7,6 +7,7 @@ import java.util.Map;
 
 @Data
 public class EventDto {
+    private Long id;
     private String topic;
 
     private LocalDateTime eventTime;

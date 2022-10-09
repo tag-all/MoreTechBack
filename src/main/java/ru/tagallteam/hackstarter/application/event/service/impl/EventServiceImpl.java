@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import ru.tagallteam.hackstarter.application.activity.model.ActivityType;
+import ru.tagallteam.hackstarter.application.activity.service.ActivityService;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
 import ru.tagallteam.hackstarter.application.event.domain.Event;
@@ -38,6 +40,7 @@ public class EventServiceImpl implements EventService {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private final ActivityService activityService;
 
     @Override
     public Page<EventDto> events(CommonFilter filter) {
@@ -89,6 +92,7 @@ public class EventServiceImpl implements EventService {
         eventRepository.save(event);
 
         userService.addXPtoUser(user.getId(), 50L);
+        activityService.addActivityToUser(user.getId(), ActivityType.EVENT_JOIN, event.getId());
     }
 
     @Override

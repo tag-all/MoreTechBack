@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import ru.tagallteam.hackstarter.application.activity.domain.Activity;
 import ru.tagallteam.hackstarter.application.activity.domain.ActivityRepository;
 import ru.tagallteam.hackstarter.application.activity.mapper.ActivityMapper;
 import ru.tagallteam.hackstarter.application.activity.model.ActivityDto;
+import ru.tagallteam.hackstarter.application.activity.model.ActivityType;
 import ru.tagallteam.hackstarter.application.activity.service.ActivityService;
 import ru.tagallteam.hackstarter.application.common.filter.CommonFilter;
 import ru.tagallteam.hackstarter.application.common.filter.Page;
@@ -75,6 +77,19 @@ public class ActivityServiceImpl implements ActivityService {
                     .map(mapper::convertToActivityDto);
             return Page.of(activities);
         }
+    }
+
+    @Override
+    public void addActivityToUser(Long userId, ActivityType activityType, Long activityId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(ErrorDescriptor.USER_NOT_FOUND::applicationException);
+
+        Activity activity = new Activity();
+        activity.setActivityDate(LocalDateTime.now());
+        activity.setUser(user);
+        activity.setType(activityType.name());
+        activity.setActivityLinkId(activityId);
+        activityRepository.save(activity);
     }
 
 
