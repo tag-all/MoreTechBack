@@ -12,6 +12,6 @@ public interface ClanService {
 
     ClanDto getClanForNFT(Long nft_id);
 
-    void addUserToClan(Long clan_id, Long user_id);
+    void addUserToClan(Long clan_id);
 
 }

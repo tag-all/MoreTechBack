@@ -1,12 +1,12 @@
 package ru.tagallteam.hackstarter.integration.modal;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import java.util.List;
 import lombok.Data;
 
 @Data
 public class NftGenerateInfo {
-    @JsonFormat(pattern = "wallet_id")
+    @JsonAlias("wallet_id")
     private String walletId;
 
     private List<Long> tokens;

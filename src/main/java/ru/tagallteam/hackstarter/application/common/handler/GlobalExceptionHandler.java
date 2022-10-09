@@ -44,6 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     @ExceptionHandler(HttpServerErrorException.class)
     public ApplicationError outSystemException(Exception ex, HttpServletResponse response){
+        log.info(ex.getMessage());
         response.setStatus(ErrorDescriptor.OUT_SYSTEM_ERROR_IN_URL.applicationError().getStatus().value());
         return ErrorDescriptor.OUT_SYSTEM_ERROR_IN_URL.applicationError();
     }

@@ -81,17 +81,17 @@ public class VtbIntegrationImpl implements VtbIntegration {
     }
 
     @Override
-    public SendNft getGenerateNft(Long tokenId) {
-        String url = urlParser.getFullUrl(Endpoints.LIST_NFT_COLLECTION, Map.of("tokenId", tokenId.toString()));
+    public NftGenerateInfo getGenerateNft(String key) {
+        String url = urlParser.getFullUrl(Endpoints.LIST_NFT_COLLECTION, Map.of("transactionHash", key));
         return outSystemRest.getWithOutParam(SystemRequest.VTB.getName(), url, Collections.emptyMap(),
-                SendNft.class);
+                NftGenerateInfo.class);
     }
 
     @Override
-    public NftGenerateInfo getNftInfo(String key) {
-        String url = urlParser.getFullUrl(Endpoints.NFT_INFO, Map.of("transactionHash", key));
+    public SendNft getNftInfo(Long tokenId) {
+        String url = urlParser.getFullUrl(Endpoints.NFT_INFO, Map.of("tokenId", tokenId.toString()));
         return outSystemRest.getWithOutParam(SystemRequest.VTB.getName(), url, Collections.emptyMap(),
-                NftGenerateInfo.class);
+                SendNft.class);
     }
 
     @Override

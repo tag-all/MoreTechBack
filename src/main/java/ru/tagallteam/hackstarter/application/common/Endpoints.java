@@ -68,7 +68,7 @@ public interface Endpoints {
 
         String CLAN_NFT = "/clan/nft/{nftId}";
 
-        String CLAN_NEW_USER = "/clans/{clanId}/users/{userId}";
+        String CLAN_NEW_USER = "/clans/{clanId}";
 
 
     }

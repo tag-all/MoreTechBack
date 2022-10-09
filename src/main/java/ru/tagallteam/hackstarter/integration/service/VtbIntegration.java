@@ -31,9 +31,9 @@ public interface VtbIntegration {
 
     NftCreateTransaction generateNft(NftCreate nftCreate);
 
-    SendNft getGenerateNft(Long tokenId);
+    NftGenerateInfo getGenerateNft(String key);
 
-    NftGenerateInfo getNftInfo(String key);
+    SendNft getNftInfo(Long tokenId);
 
     WalletHistory getWalletHistory(FilterHistory filter);
 }

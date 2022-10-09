@@ -22,8 +22,8 @@ public class ClanController {
             notes = "Добавление нового пользователя в клан")
     @SystemError
     @PostMapping(Endpoints.ClanService.CLAN_NEW_USER)
-    public void addUserToClan(@PathVariable Long clanId, @PathVariable Long userId) {
-        clanService.addUserToClan(clanId, userId);
+    public void addUserToClan(@PathVariable Long clanId) {
+        clanService.addUserToClan(clanId);
     }
 
     @ApiOperation(value = "Получение кланов",
