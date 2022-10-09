@@ -25,7 +25,6 @@ import ru.tagallteam.hackstarter.application.lvl.domain.LvlRepository;
 import ru.tagallteam.hackstarter.application.transfer.domain.Transfer;
 import ru.tagallteam.hackstarter.application.transfer.domain.TransferRepository;
 import ru.tagallteam.hackstarter.application.transfer.mapper.TransferMapper;
-import ru.tagallteam.hackstarter.application.transfer.service.TransferService;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
 import ru.tagallteam.hackstarter.application.user.mapper.UserMapper;

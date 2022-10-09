@@ -17,12 +17,13 @@ import ru.tagallteam.hackstarter.application.achievement.domain.AchievementUserR
 import ru.tagallteam.hackstarter.application.achievement.mapper.AchievementMapper;
 import ru.tagallteam.hackstarter.application.achievement.model.AchievementDto;
 import ru.tagallteam.hackstarter.application.achievement.service.AchievementService;
+import ru.tagallteam.hackstarter.application.activity.model.ActivityType;
+import ru.tagallteam.hackstarter.application.activity.service.ActivityService;
 import ru.tagallteam.hackstarter.application.event.modal.EventAttributeType;
 import ru.tagallteam.hackstarter.application.lvl.domain.Lvl;
 import ru.tagallteam.hackstarter.application.lvl.domain.LvlRepository;
 import ru.tagallteam.hackstarter.application.user.domain.User;
 import ru.tagallteam.hackstarter.application.user.domain.UserRepository;
-import ru.tagallteam.hackstarter.application.user.service.UserService;
 import ru.tagallteam.hackstarter.errors.ErrorDescriptor;
 import ru.tagallteam.hackstarter.integration.modal.SendCurrency;
 import ru.tagallteam.hackstarter.integration.service.VtbIntegration;
@@ -46,6 +47,7 @@ public class AchievementServiceImpl implements AchievementService {
     private final UserRepository userRepository;
     private final AchievementMapper achievementMapper;
     private final LvlRepository lvlRepository;
+    private final ActivityService activityService;
 
     @Value("${system-valet.private-key}")
     private String privateKey;
@@ -138,6 +140,9 @@ public class AchievementServiceImpl implements AchievementService {
                     .toPublicKey(user.getPublicKey())
                     .build());
         }
+
+        activityService.addActivityToUser(userId, ActivityType.ACHIEVEMENT, achievement.getId());
+
     }
 
     private void addNewLevelAchievements(Long userId, Lvl lvl) {
@@ -146,5 +151,4 @@ public class AchievementServiceImpl implements AchievementService {
             addAchievementToUser(userId, achievement.getId());
         }
     }
-
 }

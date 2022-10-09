@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.tagallteam.hackstarter.application.activity.model.ActivityType;
+import ru.tagallteam.hackstarter.application.activity.service.ActivityService;
 import ru.tagallteam.hackstarter.application.transfer.domain.Transfer;
 import ru.tagallteam.hackstarter.application.transfer.domain.TransferRepository;
 import ru.tagallteam.hackstarter.application.transfer.mapper.TransferMapper;
@@ -32,6 +34,7 @@ public class TransferServiceImpl implements TransferService {
     private final UserRepository userRepository;
 
     private final UserService userService;
+    private final ActivityService activityService;
 
     private final TransferMapper transferMapper;
 
@@ -63,6 +66,8 @@ public class TransferServiceImpl implements TransferService {
             transferEntity.setUserSend(userSend);
             transferEntity.setUserGet(user);
             transferRepository.save(transferEntity);
+
+            activityService.addActivityToUser(user.getId(), ActivityType.NFT_RECEIVED, transfer.getNftId());
         }
         userService.addXPtoUser(userId, 20L);
     }
