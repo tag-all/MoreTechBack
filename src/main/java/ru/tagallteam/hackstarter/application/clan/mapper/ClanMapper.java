@@ -7,6 +7,7 @@ import ru.tagallteam.hackstarter.application.activity.model.ActivityDto;
 import ru.tagallteam.hackstarter.application.activity.model.ActivityType;
 import ru.tagallteam.hackstarter.application.clan.domain.Clan;
 import ru.tagallteam.hackstarter.application.clan.model.ClanDto;
+import ru.tagallteam.hackstarter.application.clan.model.ClanPriceDto;
 
 @Component
 public class ClanMapper {
@@ -19,5 +20,12 @@ public class ClanMapper {
         return clanDto;
     }
 
+    public ClanPriceDto convertToClanPriceDto(Clan clan) {
+        ClanPriceDto clanPriceDto = new ClanPriceDto();
+        clanPriceDto.setId(clan.getId());
+        clanPriceDto.setName(clan.getName());
+        clanPriceDto.setStart_img(clan.getStart_img());
+        return clanPriceDto;
+    }
 
 }

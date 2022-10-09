@@ -42,7 +42,7 @@ public class NftServiceImpl implements NftService {
         NftUserDto nftUserDto = (NftUserDto) mapper.convertToNftDto(user.getNfts().stream()
                 .filter(it -> it.getTxHash().equals(tokenId.toString())).findFirst()
                 .orElseThrow(ErrorDescriptor.NFT_NOT_FOUND::applicationException), nftTokenDto.getUri());
-        nftUserDto.setUserId(user.getId());
+        nftUserDto.setOwner(user.getName().concat(" ").concat(user.getLastName()));
         return nftUserDto;
     }
 }

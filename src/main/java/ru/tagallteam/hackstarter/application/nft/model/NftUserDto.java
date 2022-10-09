@@ -6,5 +6,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class NftUserDto extends NftDto {
-    private Long userId;
+    private String owner;
 }

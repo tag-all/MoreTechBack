@@ -43,7 +43,6 @@ public class ClanController {
         return clanService.getAllClansForUser(userId);
     }
 
-
     @ApiOperation(value = "Получение клана для NFT",
             notes = "Получение клана для конкретного NFT")
     @SystemError

@@ -85,7 +85,7 @@ public class ClanServiceImpl implements ClanService {
                 .uri(clan.getStart_img())
                 .nftCount(1L).build();
         NftCreateTransaction transaction = integration.generateNft(nftCreate);
-        Thread.sleep(SECONDS.toMillis(20));
+        Thread.sleep(SECONDS.toMillis(5));
         NftGenerateInfo nftGenerateInfo = integration.getGenerateNft(transaction.getTransactionHash());
         Nft nft = new Nft();
         nft.setUser(user);
@@ -96,8 +96,9 @@ public class ClanServiceImpl implements ClanService {
         clan = clanRepository.save(clan);
         nft.setClan(clan);
         nftRepository.save(nft);
-
-        achievementService.addAchievementToUser(user.getId(), 9L);
+        if(user.getAchievements().stream().noneMatch(it -> it.getAchievement().getId().equals(9L))) {
+            achievementService.addAchievementToUser(user.getId(), 9L);
+        }
     }
 
     @Override
@@ -111,7 +112,7 @@ public class ClanServiceImpl implements ClanService {
             for (Nft nft : nfts) {
                 price += nft.getPrice();
             }
-            ClanPriceDto clanPriceDto = (ClanPriceDto) clanMapper.convertToClanDto(clan);
+            ClanPriceDto clanPriceDto = clanMapper.convertToClanPriceDto(clan);
             clanPriceDto.setPrice(price);
             resultClans.add(clanPriceDto);
         }
